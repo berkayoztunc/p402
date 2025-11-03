@@ -44,6 +44,8 @@ export function createDynamicPaymentMiddleware(
         }, 403);
       }
 
+
+     
       // Create payment middleware for this specific API
       const pathConfig: Record<string, { price: string; network: Network }> = {
         [path]: {
@@ -57,13 +59,6 @@ export function createDynamicPaymentMiddleware(
           return c.json({ 
             error: "Invalid Payment Address",
             message: "The payment address is not a valid Solana address",
-            code: "INVALID_PAYMENT_ADDRESS"
-          }, 400);
-        }
-        if (api.network !== 'solana' && !api.owner_address.match(/^0x[a-fA-F0-9]{40}$/)) {
-          return c.json({ 
-            error: "Invalid Payment Address",
-            message: "The payment address is not a valid Ethereum address",
             code: "INVALID_PAYMENT_ADDRESS"
           }, 400);
         }
