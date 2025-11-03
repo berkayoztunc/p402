@@ -7,6 +7,10 @@ declare namespace Cloudflare {
 	}
 	interface Env {
 		ASSETS: Fetcher;
+		DB: D1Database;
+		FACILITATOR_URL: string;
+		PAYMENT_ADDRESS: string;
+		NETWORK: string;
 	}
 }
 interface CloudflareBindings extends Cloudflare.Env {}

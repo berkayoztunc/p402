@@ -1,5 +1,9 @@
 # prod
 dist/
+public/assets/
+public/*.js
+public/*.css
+public/vite.svg
 
 # dev
 .yarn/
