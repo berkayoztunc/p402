@@ -1,6 +1,12 @@
+<div align="center">
+
+![P402 Logo](./image.png)
+
 # P402 - Dynamic API Payment Gateway 🚀
 
 > **HTTP 402: Payment Required** - The forgotten status code is now monetizing APIs!
+
+</div>
 
 Transform any API into a revenue-generating asset with automatic payment collection, blockchain authentication, and enterprise-grade proxy infrastructure.
 
@@ -94,7 +100,7 @@ npm run dev        # Backend on :8787
 cd frontend && npm run dev  # Frontend on :5173
 ```
 
-**📖 Detailed Setup**: See [SETUP.md](./SETUP.md) for complete instructions
+**📖 Detailed Setup**: See [SETUP.md](./docs/SETUP.md) for complete instructions
 
 ---
 
@@ -102,13 +108,14 @@ cd frontend && npm run dev  # Frontend on :5173
 
 | Document | Description |
 |----------|-------------|
-| [**SETUP.md**](./SETUP.md) | Complete installation & configuration guide |
-| [**FRONTEND_GUIDE.md**](./FRONTEND_GUIDE.md) | Frontend usage & development guide |
-| [**DEPLOYMENT_GUIDE.md**](./DEPLOYMENT_GUIDE.md) | Production deployment instructions |
-| [**SOLANA_AUTH_GUIDE.md**](./SOLANA_AUTH_GUIDE.md) | Wallet authentication implementation |
-| [**CUSTOM_HEADERS_FEATURE.md**](./CUSTOM_HEADERS_FEATURE.md) | Custom header configuration |
-| [**ERROR_CODES.md**](./ERROR_CODES.md) | Complete API error reference |
-| [**COMPONENTS_GUIDE.md**](./COMPONENTS_GUIDE.md) | Frontend component library |
+| [**SETUP.md**](./docs/SETUP.md) | Complete installation & configuration guide |
+| [**FRONTEND_GUIDE.md**](./docs/FRONTEND_GUIDE.md) | Frontend usage & development guide |
+| [**DEPLOYMENT_GUIDE.md**](./docs/DEPLOYMENT_GUIDE.md) | Production deployment instructions |
+| [**SOLANA_AUTH_GUIDE.md**](./docs/SOLANA_AUTH_GUIDE.md) | Wallet authentication implementation |
+| [**CUSTOM_HEADERS_FEATURE.md**](./docs/CUSTOM_HEADERS_FEATURE.md) | Custom header configuration |
+| [**ERROR_CODES.md**](./docs/ERROR_CODES.md) | Complete API error reference |
+| [**COMPONENTS_GUIDE.md**](./docs/COMPONENTS_GUIDE.md) | Frontend component library |
+| [**FRONTEND_SUMMARY.md**](./docs/FRONTEND_SUMMARY.md) | Frontend development summary |
 
 ---
 

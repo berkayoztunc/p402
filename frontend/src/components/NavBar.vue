@@ -2,8 +2,7 @@
   <nav class="navbar">
     <div class="nav-content">
       <div class="nav-brand" @click="$router.push('/')">
-        <span class="brand-icon">⚡</span>
-        <span class="brand-text">P402</span>
+        <img src="/logo.png" alt="P402 Logo" class="brand-logo" />
       </div>
       
       <div class="nav-links">
@@ -88,6 +87,12 @@ async function handleLogout() {
 
 .nav-brand:hover {
   transform: translateY(-2px);
+}
+
+.brand-logo {
+  height: 60px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 8px rgba(255, 107, 0, 0.6));
 }
 
 .brand-icon {
