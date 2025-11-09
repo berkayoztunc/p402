@@ -16,6 +16,7 @@
     "axios": "^1.13.1",
     "bs58": "^6.0.0",
     "ethers": "^6.15.0",
+    "marked": "^16.4.1",
     "pinia": "^3.0.3",
     "react-dom": "^19.2.0",
     "solana-wallets-vue": "^0.7.1",

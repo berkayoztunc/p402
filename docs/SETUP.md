@@ -1,30 +1,30 @@
-# P402 Kurulum Rehberi 🚀
+# P402 Setup Guide 🚀
 
-Bu rehber P402 Dynamic API Payment Gateway'i kurmanız için adım adım yönergeler içermektedir.
+This guide contains step-by-step instructions for setting up the P402 Dynamic API Payment Gateway.
 
-## 📋 Ön Gereksinimler
+## 📋 Prerequisites
 
-- Node.js (v18 veya üzeri)
-- npm veya yarn
-- Cloudflare hesabı
-- Wrangler CLI (npm install ile otomatik gelir)
+- Node.js (v18 or higher)
+- npm or yarn
+- Cloudflare account
+- Wrangler CLI (automatically installed via npm install)
 
-## 🛠️ Kurulum Adımları
+## 🛠️ Installation Steps
 
-### 1. Bağımlılıkları Yükleyin
+### 1. Install Dependencies
 
 ```bash
 npm install
 ```
 
-### 2. D1 Database Oluşturun
+### 2. Create D1 Database
 
 ```bash
-# Database oluştur
+# Create database
 npm run db:create
 ```
 
-Bu komut çalıştığında size bir **database_id** verecek. Örnek:
+When this command runs, it will give you a **database_id**. Example:
 ```
 ✅ Successfully created DB 'p402_apis' in region WEUR
 Created your database using D1's new storage backend.
@@ -32,12 +32,12 @@ Created your database using D1's new storage backend.
 [[d1_databases]]
 binding = "DB"
 database_name = "p402_apis"
-database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # <-- BUNU KOPYALAYIN
+database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # <-- COPY THIS
 ```
 
-### 3. wrangler.jsonc Dosyasını Güncelleyin
+### 3. Update wrangler.jsonc File
 
-`wrangler.jsonc` dosyasını açın ve şu değerleri güncelleyin:
+Open the `wrangler.jsonc` file and update these values:
 
 ```jsonc
 {
@@ -45,7 +45,7 @@ database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # <-- BUNU KOPYALAYIN
     {
       "binding": "DB",
       "database_name": "p402_apis",
-      "database_id": "BURAYA_YUKARIDAKI_DATABASE_ID_YI_YAPIŞTIRIN"
+      "database_id": "PASTE_THE_DATABASE_ID_FROM_ABOVE_HERE"
     }
   ],
   "vars": {
@@ -56,37 +56,37 @@ database_id = "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx" # <-- BUNU KOPYALAYIN
 }
 ```
 
-**Önemli:** 
-- `database_id`: Adım 2'de aldığınız ID
-- `FACILITATOR_URL`: x402 facilitator URL'iniz
-- `PAYMENT_ADDRESS`: Default wallet adresiniz (her API kendi adresini kullanır)
-- `NETWORK`: Kullanmak istediğiniz blockchain network'ü
+**Important:** 
+- `database_id`: The ID you received in Step 2
+- `FACILITATOR_URL`: Your x402 facilitator URL
+- `PAYMENT_ADDRESS`: Your default wallet address (each API uses its own address)
+- `NETWORK`: The blockchain network you want to use
 
-### 4. Database Migration'ları Çalıştırın
+### 4. Run Database Migrations
 
-#### Local Development için:
+#### For Local Development:
 ```bash
 npm run db:migrate:local
 ```
 
-#### Production için (deploy etmeden önce):
+#### For Production (before deploying):
 ```bash
 npm run db:migrate:prod
 ```
 
-### 5. Geliştirme Sunucusunu Başlatın
+### 5. Start Development Server
 
 ```bash
 npm run dev
 ```
 
-Sunucu başladığında şu adresten erişebilirsiniz:
-- Ana sayfa: http://localhost:8787/
+Once the server starts, you can access it at:
+- Main page: http://localhost:8787/
 - Dashboard: http://localhost:8787/dashboard.html
 
-## 🧪 Test Edin
+## 🧪 Testing
 
-### 1. API Kaydedin
+### 1. Register an API
 
 ```bash
 curl -X POST http://localhost:8787/manage/register \
@@ -101,31 +101,31 @@ curl -X POST http://localhost:8787/manage/register \
   }'
 ```
 
-### 2. API'leri Listeleyin
+### 2. List APIs
 
 ```bash
 curl http://localhost:8787/manage/apis
 ```
 
-### 3. Kayıtlı API'yi Kullanın
+### 3. Use Registered API
 
-Yanıttan aldığınız `id` değerini kullanarak:
+Using the `id` value from the response:
 
 ```bash
 curl http://localhost:8787/api/{API_ID}/v1/forecast?latitude=52.52&longitude=13.41&current=temperature_2m
 ```
 
-## 🚀 Production'a Deploy
+## 🚀 Deploy to Production
 
-### 1. Production Database Oluşturun
+### 1. Create Production Database
 
 ```bash
 npx wrangler d1 create p402_apis
 ```
 
-Database ID'yi kopyalayın.
+Copy the database ID.
 
-### 2. wrangler.jsonc'yi Production ID ile Güncelleyin
+### 2. Update wrangler.jsonc with Production ID
 
 ```jsonc
 {
@@ -139,22 +139,22 @@ Database ID'yi kopyalayın.
 }
 ```
 
-### 3. Production Migration Çalıştırın
+### 3. Run Production Migration
 
 ```bash
 npm run db:migrate:prod
 ```
 
-### 4. Deploy Edin
+### 4. Deploy
 
 ```bash
 npm run deploy
 ```
 
-## 🎯 Kullanım Senaryosu
+## 🎯 Usage Scenario
 
 ```javascript
-// 1. API'nizi sisteme kaydedin
+// 1. Register your API in the system
 const registerResponse = await fetch('https://your-domain.workers.dev/manage/register', {
   method: 'POST',
   headers: { 'Content-Type': 'application/json' },
@@ -170,43 +170,43 @@ const registerResponse = await fetch('https://your-domain.workers.dev/manage/reg
 const { api, proxyUrl } = await registerResponse.json();
 // proxyUrl: "/api/550e8400-e29b-41d4-a716-446655440000"
 
-// 2. Müşterilerinize bu URL'i verin
-// Onlar 402 payment ile API'nize erişir, her çağrı için para kazanırsınız!
+// 2. Give this URL to your customers
+// They access your API with 402 payment, you earn money for each call!
 ```
 
 ## 📊 Dashboard
 
-Web dashboard'a şu adresten erişebilirsiniz:
+You can access the web dashboard at:
 - Local: http://localhost:8787/dashboard.html
 - Production: https://your-domain.workers.dev/dashboard.html
 
-Dashboard ile:
-- ✅ Yeni API kaydedin
-- ✅ Tüm API'leri görüntüleyin
-- ✅ API detaylarını inceleyin
-- ✅ Proxy URL'leri kopyalayın
+With the dashboard you can:
+- ✅ Register new APIs
+- ✅ View all APIs
+- ✅ Examine API details
+- ✅ Copy proxy URLs
 
 ## 🔧 Troubleshooting
 
-### Database bulunamıyor hatası
+### Database not found error
 
 ```bash
-# Database listesini kontrol edin
+# Check database list
 npx wrangler d1 list
 
-# Database ID'nin wrangler.jsonc'de doğru olduğundan emin olun
+# Make sure the database ID is correct in wrangler.jsonc
 ```
 
-### Migration çalışmıyor
+### Migration not working
 
 ```bash
-# Migration dosyasını manuel çalıştırın
+# Run migration file manually
 npx wrangler d1 execute p402_apis --local --file=./migrations/0001_create_apis.sql
 ```
 
-### x402-hono hatası
+### x402-hono error
 
-x402-hono paketinin doğru kurulduğundan emin olun:
+Make sure the x402-hono package is installed correctly:
 
 ```bash
 npm list x402-hono
@@ -216,22 +216,22 @@ npm list x402-hono
 
 ### Management
 - `GET /` - Health check
-- `GET /manage/apis` - Tüm API'leri listele
-- `GET /manage/my-apis/:address` - Kullanıcının API'lerini listele
-- `POST /manage/register` - Yeni API kaydet
-- `PUT /manage/apis/:id` - API güncelle
-- `DELETE /manage/apis/:id` - API sil
+- `GET /manage/apis` - List all APIs
+- `GET /manage/my-apis/:address` - List user's APIs
+- `POST /manage/register` - Register new API
+- `PUT /manage/apis/:id` - Update API
+- `DELETE /manage/apis/:id` - Delete API
 
 ### Proxy
-- `ALL /api/:id/*` - Kayıtlı API'ye proxy (402 payment gerekli)
+- `ALL /api/:id/*` - Proxy to registered API (402 payment required)
 
-## 🤝 Destek
+## 🤝 Support
 
-Sorun yaşarsanız:
-1. `wrangler dev` çıktısını kontrol edin
-2. Browser console'u kontrol edin
-3. Database migration'larının çalıştığından emin olun
+If you encounter problems:
+1. Check `wrangler dev` output
+2. Check browser console
+3. Make sure database migrations have run
 
-## 🎉 Başarılar!
+## 🎉 Success!
 
-Artık dinamik 402 payment gateway'iniz hazır! 🚀
+Your dynamic 402 payment gateway is now ready! 🚀

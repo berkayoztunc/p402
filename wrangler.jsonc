@@ -22,8 +22,8 @@
 		}
 	],
 	"vars": {
-		"FACILITATOR_URL": "https://facilitator.payai.network",
-		"PAYMENT_ADDRESS": "0xYourWalletAddress",
+		"FACILITATOR_URL": "https://facilitator.p402.store",
+		"PAYMENT_ADDRESS": "p42ihR8Zeyr65t3N4RBDMzBYg9pNPs3VZPyZTkL1mSt",
 		"NETWORK": "solana"
 	}
 	/**

@@ -4,6 +4,7 @@ import vue from '@vitejs/plugin-vue'
 // https://vite.dev/config/
 export default defineConfig({
   plugins: [vue()],
+  publicDir: 'public',
   build: {
     outDir: '../public',
     emptyOutDir: true,
@@ -29,7 +30,9 @@ export default defineConfig({
           ]
         }
       }
-    }
+    },
+    // Copy docs to output directory
+    copyPublicDir: true
   },
   optimizeDeps: {
     exclude: ['@fractalwagmi/popup-connection']

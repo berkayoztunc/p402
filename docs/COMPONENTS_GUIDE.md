@@ -1,19 +1,19 @@
 # 🎨 P402 Frontend - Component Library
 
-Frontend'de kullanılan bileşenler ve gelecekteki geliştirmeler için bileşen fikirleri.
+Components used in the frontend and component ideas for future development.
 
-## 📦 Mevcut Bileşenler
+## 📦 Current Components
 
 ### 1. Home.vue (Main One-Pager)
 
-Ana sayfa bileşeni, tüm özellikleri içerir:
+Main page component, includes all features:
 - Hero section
 - Feature cards
 - Dashboard
 - API management
 - Modals
 
-## 🔮 Gelecek Bileşenler (İsteğe Bağlı)
+## 🔮 Future Components (Optional)
 
 ### 1. LoadingSpinner.vue
 

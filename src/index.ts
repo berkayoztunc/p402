@@ -8,13 +8,13 @@ import type { Resource, Network } from "x402-hono";
 
 const app = new Hono<{ Bindings: CloudflareBindings }>();
 
-// CORS middleware with credentials allow all
-
+// CORS middleware with credentials support
 app.use("*", cors({
-  origin: "*",
+  origin: "http://localhost:5173",
   credentials: true,
   allowMethods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowHeaders: ['Content-Type', 'Authorization'],
+  exposeHeaders: ['Set-Cookie'],
 }));
 
 // Public APIs endpoint (before payment middleware to avoid charging)
@@ -480,77 +480,198 @@ app.delete("/manage/apis/:id", async (c) => {
   }
 });
 
+// ==================== Payment History Routes ====================
+
+// Get payment history with filters
+app.get("/manage/payment-history", async (c) => {
+  try {
+    const { endpoint, network, success, payer, limit = "100", offset = "0" } = c.req.query();
+    
+    const db = c.env.DB;
+    let query = `
+      SELECT 
+        id,
+        endpoint,
+        network,
+        payer,
+        amount,
+        token,
+        recipient,
+        success,
+        error_reason,
+        transaction_hash,
+        created_at
+      FROM payment_history
+      WHERE 1=1
+    `;
+    
+    const params: any[] = [];
+    
+    if (endpoint) {
+      query += ` AND endpoint = ?`;
+      params.push(endpoint);
+    }
+    
+    if (network) {
+      query += ` AND network = ?`;
+      params.push(network);
+    }
+    
+    if (success !== undefined) {
+      query += ` AND success = ?`;
+      params.push(success === "true" || success === "1" ? 1 : 0);
+    }
+    
+    if (payer) {
+      query += ` AND payer = ?`;
+      params.push(payer);
+    }
+    
+    query += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
+    params.push(parseInt(limit), parseInt(offset));
+    
+    const result = await db.prepare(query).bind(...params).all();
+    
+    // Get total count
+    let countQuery = `SELECT COUNT(*) as total FROM payment_history WHERE 1=1`;
+    const countParams: any[] = [];
+    
+    if (endpoint) {
+      countQuery += ` AND endpoint = ?`;
+      countParams.push(endpoint);
+    }
+    
+    if (network) {
+      countQuery += ` AND network = ?`;
+      countParams.push(network);
+    }
+    
+    if (success !== undefined) {
+      countQuery += ` AND success = ?`;
+      countParams.push(success === "true" || success === "1" ? 1 : 0);
+    }
+    
+    if (payer) {
+      countQuery += ` AND payer = ?`;
+      countParams.push(payer);
+    }
+    
+    const countResult = await db.prepare(countQuery).bind(...countParams).first<{ total: number }>();
+    
+    return c.json({
+      success: true,
+      data: result.results || [],
+      pagination: {
+        total: countResult?.total || 0,
+        limit: parseInt(limit),
+        offset: parseInt(offset)
+      }
+    });
+  } catch (error) {
+    console.error("Payment history error:", error);
+    return c.json({
+      error: "Database Error",
+      message: "Failed to retrieve payment history",
+      code: "DB_ERROR"
+    }, 500);
+  }
+});
+
+// Get payment analytics
+app.get("/manage/payment-analytics", async (c) => {
+  try {
+    const { days = "30" } = c.req.query();
+    
+    const db = c.env.DB;
+    const query = `
+      SELECT 
+        date,
+        endpoint,
+        network,
+        total_requests,
+        successful_requests,
+        failed_requests,
+        success_rate
+      FROM payment_analytics
+      WHERE date >= date('now', '-' || ? || ' days')
+      ORDER BY date DESC
+    `;
+    
+    const result = await db.prepare(query).bind(parseInt(days)).all();
+    
+    return c.json({
+      success: true,
+      data: result.results || []
+    });
+  } catch (error) {
+    console.error("Payment analytics error:", error);
+    return c.json({
+      error: "Database Error",
+      message: "Failed to retrieve payment analytics",
+      code: "DB_ERROR"
+    }, 500);
+  }
+});
+
+// Get payment statistics summary
+app.get("/manage/payment-stats", async (c) => {
+  try {
+    const db = c.env.DB;
+    
+    // Overall stats
+    const statsQuery = `
+      SELECT 
+        COUNT(*) as total_payments,
+        SUM(CASE WHEN success = 1 THEN 1 ELSE 0 END) as successful_payments,
+        SUM(CASE WHEN success = 0 THEN 1 ELSE 0 END) as failed_payments,
+        COUNT(DISTINCT payer) as unique_payers,
+        COUNT(DISTINCT network) as networks_used
+      FROM payment_history
+    `;
+    
+    const stats = await db.prepare(statsQuery).first();
+    
+    // Recent activity (last 24 hours)
+    const recentQuery = `
+      SELECT COUNT(*) as recent_payments
+      FROM payment_history
+      WHERE created_at >= strftime('%s', 'now', '-1 day')
+    `;
+    
+    const recent = await db.prepare(recentQuery).first();
+    
+    // Network breakdown
+    const networkQuery = `
+      SELECT 
+        network,
+        COUNT(*) as count,
+        SUM(CASE WHEN success = 1 THEN 1 ELSE 0 END) as successful
+      FROM payment_history
+      GROUP BY network
+    `;
+    
+    const networkStats = await db.prepare(networkQuery).all();
+    
+    return c.json({
+      success: true,
+      stats: {
+        ...stats,
+        ...recent,
+        by_network: networkStats.results || []
+      }
+    });
+  } catch (error) {
+    console.error("Payment stats error:", error);
+    return c.json({
+      error: "Database Error",
+      message: "Failed to retrieve payment statistics",
+      code: "DB_ERROR"
+    }, 500);
+  }
+});
+
 // ==================== Proxy Routes ====================
-
-// Dynamic API proxy - supports all HTTP methods
-app.all("/api/:id/*", async (c) => {
-  const path = c.req.path;
-  const registry = new ApiRegistry(c.env.DB);
-  
-  try {
-    const api = await registry.getApiByPath(path);
-
-    if (!api) {
-      return c.json({ 
-        error: "API Not Found",
-        message: "The requested API endpoint does not exist",
-        code: "API_NOT_FOUND"
-      }, 404);
-    }
-
-    if (!api.is_active) {
-      return c.json({ 
-        error: "API Inactive",
-        message: "This API has been deactivated by the owner",
-        code: "API_INACTIVE"
-      }, 403);
-    }
-
-    return await proxyToTargetApi(c, api.target_url, path, api.headers);
-  } catch (error) {
-    console.error("Proxy route error:", error);
-    return c.json({
-      error: "Internal Server Error",
-      message: "Failed to process proxy request",
-      code: "INTERNAL_ERROR"
-    }, 500);
-  }
-});
-
-// Root path proxy support
-app.all("/api/:id", async (c) => {
-  const path = c.req.path;
-  const registry = new ApiRegistry(c.env.DB);
-  
-  try {
-    const api = await registry.getApiByPath(path);
-
-    if (!api) {
-      return c.json({ 
-        error: "API Not Found",
-        message: "The requested API endpoint does not exist",
-        code: "API_NOT_FOUND"
-      }, 404);
-    }
-
-    if (!api.is_active) {
-      return c.json({ 
-        error: "API Inactive",
-        message: "This API has been deactivated by the owner",
-        code: "API_INACTIVE"
-      }, 403);
-    }
-
-    return await proxyToTargetApi(c, api.target_url, path, api.headers);
-  } catch (error) {
-    console.error("Proxy route error:", error);
-    return c.json({
-      error: "Internal Server Error",
-      message: "Failed to process proxy request",
-      code: "INTERNAL_ERROR"
-    }, 500);
-  }
-});
+// Note: Proxy routes are handled by the payment middleware above
+// The middleware checks payment, validates API, and proxies the request
 
 export default app;
-

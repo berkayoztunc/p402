@@ -1,65 +1,65 @@
-# 🎉 P402 Frontend Başarıyla Oluşturuldu!
+# 🎉 P402 Frontend Successfully Created!
 
-Modern, güzel ve kullanıcı dostu bir Vue 3 frontend uygulaması hazır!
+Modern, beautiful, and user-friendly Vue 3 frontend application is ready!
 
-## ✅ Tamamlanan Özellikler
+## ✅ Completed Features
 
-### 1. 🔐 Authentication Sistemi
-- ✅ MetaMask wallet entegrasyonu
-- ✅ Otomatik wallet bağlantı kontrolü
-- ✅ Güvenli state management (Pinia)
-- ✅ Account değişikliklerini dinleme
-- ✅ Disconnect fonksiyonu
+### 1. 🔐 Authentication System
+- ✅ MetaMask wallet integration
+- ✅ Automatic wallet connection check
+- ✅ Secure state management (Pinia)
+- ✅ Account change listener
+- ✅ Disconnect function
 
-### 2. 📊 Dashboard & İstatistikler
-- ✅ 4 ana istatistik kartı:
+### 2. 📊 Dashboard & Statistics
+- ✅ 4 main statistic cards:
   - Total APIs
   - Active APIs  
   - Total Revenue
   - Total Requests
-- ✅ Real-time güncellemeler
-- ✅ Güzel görsel tasarım
+- ✅ Real-time updates
+- ✅ Beautiful visual design
 
-### 3. 🔧 API Yönetimi
-- ✅ API listeleme
-- ✅ Yeni API ekleme (modal ile)
-- ✅ API düzenleme
-- ✅ API silme (onay ile)
-- ✅ API aktif/pasif yapma (toggle)
-- ✅ Proxy URL kopyalama
+### 3. 🔧 API Management
+- ✅ API listing
+- ✅ Add new API (via modal)
+- ✅ Edit API
+- ✅ Delete API (with confirmation)
+- ✅ Toggle API active/inactive
+- ✅ Copy proxy URL
 
-### 4. 🎨 Tasarım
-- ✅ **Siyah tema** (#0a0a0a background)
-- ✅ **Turuncu vurgular** (#ff6b00)
-- ✅ **One-pager** tasarım
+### 4. 🎨 Design
+- ✅ **Black theme** (#0a0a0a background)
+- ✅ **Orange accents** (#ff6b00)
+- ✅ **One-pager** design
 - ✅ **Responsive** (mobile, tablet, desktop)
-- ✅ Smooth animasyonlar
+- ✅ Smooth animations
 - ✅ Modern card-based UI
-- ✅ Gradient efektler
+- ✅ Gradient effects
 - ✅ Hover states
 
-## 🚀 Hızlı Başlangıç
+## 🚀 Quick Start
 
 ### Terminal 1 - Backend
-```bash
+\`\`\`bash
 npm run dev
 # Backend: http://localhost:8787
-```
+\`\`\`
 
 ### Terminal 2 - Frontend
-```bash
+\`\`\`bash
 cd frontend
 npm run dev
 # Frontend: http://localhost:5173
-```
+\`\`\`
 
-### Tarayıcıda Aç
+### Open in Browser
 http://localhost:5173
 
-## 📸 Özellikler
+## 📸 Features
 
-### Hero Section (Giriş Yapmadan)
-```
+### Hero Section (Before Login)
+\`\`\`
 ┌──────────────────────────────────────┐
 │         P402 Logo & Tagline           │
 │         [Connect Wallet]              │
@@ -75,14 +75,14 @@ http://localhost:5173
 │  Instant  │  Private   │  Chain      │
 │  Payments │  Wallet    │  Support    │
 └───────────┴───────────┴──────────────┘
-```
+\`\`\`
 
-### Dashboard (Giriş Yaptıktan Sonra)
-```
+### Dashboard (After Login)
+\`\`\`
 ┌──────────────────────────────────────┐
 │  P402    [0x1234...5678] [Disconnect]│
 ├────┬────┬────┬───────────────────────┤
-│ 📊 │ ✅ │ 💰 │ 📈                    │
+│ �� │ ✅ │ 💰 │ 📈                    │
 │  5 │  3 │$52 │ 750                   │
 │APIs│Act.│Rev │ Req.                  │
 ├────┴────┴────┴───────────────────────┤
@@ -101,18 +101,18 @@ http://localhost:5173
 │ │ [Edit]              [Delete]      │ │
 │ └──────────────────────────────────┘ │
 └──────────────────────────────────────┘
-```
+\`\`\`
 
-## 🎨 Tasarım Kılavuzu
+## 🎨 Design Guide
 
-### Renkler
+### Colors
 - **Primary**: #ff6b00 (Orange)
 - **Background**: #0a0a0a (Black)
 - **Text**: #ffffff (White)
 - **Gray**: #888888
 - **Borders**: rgba(255, 107, 0, 0.2)
 
-### Tipografi
+### Typography
 - **Font Family**: -apple-system, BlinkMacSystemFont, 'Segoe UI', ...
 - **Hero Title**: 56px, 800 weight
 - **Section Title**: 32px, 800 weight
@@ -124,9 +124,9 @@ http://localhost:5173
 - **Padding**: 20-40px
 - **Border Radius**: 8-16px
 
-## 🛠️ Teknik Stack
+## 🛠️ Tech Stack
 
-| Teknoloji | Versiyon | Kullanım |
+| Technology | Version | Usage |
 |-----------|----------|----------|
 | Vue | 3.x | Framework |
 | TypeScript | 5.x | Type Safety |
@@ -136,9 +136,9 @@ http://localhost:5173
 | Ethers.js | 6.x | Web3 Integration |
 | Axios | Latest | HTTP Client |
 
-## 📁 Dosya Yapısı
+## 📁 File Structure
 
-```
+\`\`\`
 frontend/
 ├── src/
 │   ├── components/        # Reusable components
@@ -162,92 +162,92 @@ frontend/
 ├── tsconfig.json
 ├── vite.config.ts
 └── README.md
-```
+\`\`\`
 
 ## 🔌 API Endpoints
 
-Backend endpoints kullanımda:
+Backend endpoints in use:
 
 ### Management
-- `GET /manage/apis` - List all APIs
-- `GET /manage/my-apis/:address` - User's APIs
-- `POST /manage/register` - Register new API
-- `PUT /manage/apis/:id` - Update API
-- `DELETE /manage/apis/:id` - Delete API
+- \`GET /manage/apis\` - List all APIs
+- \`GET /manage/my-apis/:address\` - User's APIs
+- \`POST /manage/register\` - Register new API
+- \`PUT /manage/apis/:id\` - Update API
+- \`DELETE /manage/apis/:id\` - Delete API
 
 ### Proxy
-- `ALL /api/:id/*` - Proxy to target API
+- \`ALL /api/:id/*\` - Proxy to target API
 
-## 🧪 Test Senaryosu
+## 🧪 Test Scenario
 
-### 1. Wallet Bağlantısı
-1. ✅ Sayfayı aç
-2. ✅ "Connect Wallet" butonunu gör
-3. ✅ Tıkla
-4. ✅ MetaMask popup'ı açılır
-5. ✅ Onayla
-6. ✅ Dashboard'a yönlendir
+### 1. Wallet Connection
+1. ✅ Open page
+2. ✅ See "Connect Wallet" button
+3. ✅ Click it
+4. ✅ MetaMask popup opens
+5. ✅ Approve
+6. ✅ Redirect to dashboard
 
-### 2. API Ekleme
-1. ✅ "+ Add New API" tıkla
-2. ✅ Modal açılır
-3. ✅ Formu doldur
-4. ✅ "Create" tıkla
-5. ✅ API listede görünür
+### 2. Adding API
+1. ✅ Click "+ Add New API"
+2. ✅ Modal opens
+3. ✅ Fill the form
+4. ✅ Click "Create"
+5. ✅ API appears in list
 
-### 3. API Düzenleme
-1. ✅ "Edit" butonuna tıkla
-2. ✅ Modal değerlerle açılır
-3. ✅ Değişiklikleri yap
-4. ✅ "Update" tıkla
-5. ✅ Değişiklikler yansır
+### 3. Editing API
+1. ✅ Click "Edit" button
+2. ✅ Modal opens with values
+3. ✅ Make changes
+4. ✅ Click "Update"
+5. ✅ Changes are reflected
 
-### 4. API Silme
-1. ✅ "Delete" butonuna tıkla
-2. ✅ Onay dialogu göster
-3. ✅ Onayla
-4. ✅ API listeden kaldırılır
+### 4. Deleting API
+1. ✅ Click "Delete" button
+2. ✅ Show confirmation dialog
+3. ✅ Confirm
+4. ✅ API removed from list
 
 ## 🚀 Production Deploy
 
 ### Build
-```bash
+\`\`\`bash
 cd frontend
 npm run build
-```
+\`\`\`
 
-### Deploy Seçenekleri
+### Deploy Options
 
 **Cloudflare Pages**
-```bash
+\`\`\`bash
 npx wrangler pages deploy dist
-```
+\`\`\`
 
 **Vercel**
-```bash
+\`\`\`bash
 npx vercel --prod
-```
+\`\`\`
 
 **Netlify**
-```bash
+\`\`\`bash
 npx netlify deploy --prod
-```
+\`\`\`
 
-## 📝 Environment Variables
+## �� Environment Variables
 
 ### Development (.env)
-```env
+\`\`\`env
 VITE_API_URL=http://localhost:8787
-```
+\`\`\`
 
 ### Production (.env.production)
-```env
+\`\`\`env
 VITE_API_URL=https://your-api.workers.dev
-```
+\`\`\`
 
-## 🎯 Yapılabilecek İyileştirmeler
+## 🎯 Possible Improvements
 
-### Kısa Vadeli
+### Short Term
 - [ ] Loading spinners
 - [ ] Error boundaries
 - [ ] Toast notifications
@@ -255,7 +255,7 @@ VITE_API_URL=https://your-api.workers.dev
 - [ ] Search & filter APIs
 - [ ] Sort APIs
 
-### Orta Vadeli
+### Medium Term
 - [ ] Real usage tracking
 - [ ] Payment history page
 - [ ] API analytics charts
@@ -263,7 +263,7 @@ VITE_API_URL=https://your-api.workers.dev
 - [ ] API testing tool
 - [ ] Documentation generator
 
-### Uzun Vadeli
+### Long Term
 - [ ] Team collaboration
 - [ ] Role-based access
 - [ ] Custom domains
@@ -271,23 +271,23 @@ VITE_API_URL=https://your-api.workers.dev
 - [ ] API versioning
 - [ ] Billing dashboard
 
-## 🐛 Bilinen Sorunlar
+## 🐛 Known Issues
 
-Şu an bilinen kritik sorun yok! 🎉
+No critical issues at the moment! 🎉
 
-### Minor İyileştirmeler
-- [ ] Usage statistics şu an mock data (backend tracking gerekli)
-- [ ] Network değişikliklerinde daha iyi feedback
-- [ ] Offline mode desteği
+### Minor Improvements
+- [ ] Usage statistics are currently mock data (backend tracking required)
+- [ ] Better feedback on network changes
+- [ ] Offline mode support
 
-## 📚 Dokümantasyon
+## 📚 Documentation
 
-Detaylı dokümantasyon:
-- **Frontend Guide**: `FRONTEND_GUIDE.md`
-- **API Docs**: `README.md`
-- **Setup Guide**: `SETUP.md`
+Detailed documentation:
+- **Frontend Guide**: \`FRONTEND_GUIDE.md\`
+- **API Docs**: \`README.md\`
+- **Setup Guide**: \`SETUP.md\`
 
-## 🎓 Öğrenme Kaynakları
+## 🎓 Learning Resources
 
 - [Vue 3 Docs](https://vuejs.org/)
 - [TypeScript Handbook](https://www.typescriptlang.org/docs/)
@@ -295,11 +295,11 @@ Detaylı dokümantasyon:
 - [Ethers.js Docs](https://docs.ethers.org/)
 - [Vite Guide](https://vitejs.dev/)
 
-## 💡 İpuçları
+## 💡 Tips
 
 ### Development
-```bash
-# Hot reload aktif
+\`\`\`bash
+# Hot reload active
 npm run dev
 
 # Type checking
@@ -307,52 +307,52 @@ npm run type-check
 
 # Lint
 npm run lint
-```
+\`\`\`
 
 ### Debugging
-```bash
-# Vue DevTools kullan
-# Chrome/Firefox extension yükle
+\`\`\`bash
+# Use Vue DevTools
+# Install Chrome/Firefox extension
 
 # Console logging
 console.log('Debug:', value)
 
 # Network tab
-# API isteklerini izle
-```
+# Monitor API requests
+\`\`\`
 
 ### Performance
 - Lazy loading for routes
-- Code splitting otomatik
+- Automatic code splitting
 - Assets minified in build
 - Tree shaking enabled
 
-## 🤝 Katkıda Bulunma
+## 🤝 Contributing
 
-1. Fork yapın
-2. Feature branch oluşturun
-3. Değişikliklerinizi commit edin
-4. Push yapın
-5. Pull Request açın
+1. Fork the project
+2. Create a feature branch
+3. Commit your changes
+4. Push to the branch
+5. Open a Pull Request
 
-## 📄 Lisans
+## 📄 License
 
 MIT License
 
 ---
 
-## 🎊 Tebrikler!
+## 🎊 Congratulations!
 
-P402 Frontend başarıyla tamamlandı! 
+P402 Frontend successfully completed! 
 
-### Sonraki Adımlar:
-1. ✅ Backend'i çalıştır
-2. ✅ Frontend'i çalıştır
-3. ✅ MetaMask ile bağlan
-4. ✅ API ekle ve test et
-5. 🚀 Production'a deploy et
+### Next Steps:
+1. ✅ Run the backend
+2. ✅ Run the frontend
+3. ✅ Connect with MetaMask
+4. ✅ Add and test APIs
+5. 🚀 Deploy to production
 
-**Başarılar!** 🎉
+**Good luck!** 🎉
 
 ---
 

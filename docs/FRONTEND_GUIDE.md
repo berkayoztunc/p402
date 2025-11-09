@@ -1,138 +1,138 @@
-# P402 Frontend - Kurulum ve Kullanım Kılavuzu
+# P402 Frontend - Setup and Usage Guide
 
-## 🎯 Genel Bakış
+## 🎯 Overview
 
-P402'nin modern Vue 3 tabanlı frontend arayüzü başarıyla oluşturuldu! Özellikler:
+P402's modern Vue 3-based frontend interface has been successfully created! Features:
 
-- ✅ **Wallet Authentication**: MetaMask ile giriş
-- ✅ **API Yönetimi**: API ekleme, düzenleme, silme
-- ✅ **Kullanım İstatistikleri**: Dashboard ile takip
-- ✅ **Modern Tasarım**: Siyah-turuncu one-pager arayüz
-- ✅ **Responsive**: Mobil uyumlu tasarım
+- ✅ **Wallet Authentication**: Login with MetaMask
+- ✅ **API Management**: Add, edit, delete APIs
+- ✅ **Usage Statistics**: Track with dashboard
+- ✅ **Modern Design**: Black-orange one-pager interface
+- ✅ **Responsive**: Mobile-friendly design
 
-## 🚀 Hızlı Başlangıç
+## 🚀 Quick Start
 
-### 1. Frontend'i Çalıştırma
+### 1. Running the Frontend
 
 ```bash
 cd frontend
 npm run dev
 ```
 
-Frontend şu adreste çalışacak: **http://localhost:5173**
+The frontend will run at: **http://localhost:5173**
 
-### 2. Backend'i Çalıştırma
+### 2. Running the Backend
 
-Başka bir terminalde:
+In another terminal:
 
 ```bash
-# Ana dizinde
+# In the main directory
 npm run dev
 ```
 
-Backend şu adreste çalışacak: **http://localhost:8787**
+The backend will run at: **http://localhost:8787**
 
-### 3. MetaMask ile Bağlanma
+### 3. Connecting with MetaMask
 
-1. Tarayıcınızda MetaMask extension'ını açın
-2. Frontend'de "Connect Wallet" butonuna tıklayın
-3. MetaMask'ta bağlantıyı onaylayın
-4. Dashboard'a otomatik yönlendirileceksiniz
+1. Open the MetaMask extension in your browser
+2. Click the "Connect Wallet" button on the frontend
+3. Approve the connection in MetaMask
+4. You'll be automatically redirected to the dashboard
 
-## 📋 Kullanım Adımları
+## 📋 Usage Steps
 
-### API Ekleme
+### Adding an API
 
-1. Dashboard'da **"+ Add New API"** butonuna tıklayın
-2. Formu doldurun:
-   - **API Name**: API'nizin adı (örn: "Weather API")
-   - **Description**: Açıklama
-   - **Target URL**: Hedef API URL'i (örn: "https://api.openweathermap.org")
-   - **Price**: Fiyat (örn: "$0.001")
-   - **Network**: Blockchain ağı (Ethereum, Polygon, Solana, Base, Arbitrum)
-3. **"Create"** butonuna tıklayın
+1. Click the **"+ Add New API"** button on the dashboard
+2. Fill out the form:
+   - **API Name**: Name of your API (e.g., "Weather API")
+   - **Description**: Description
+   - **Target URL**: Target API URL (e.g., "https://api.openweathermap.org")
+   - **Price**: Price (e.g., "$0.001")
+   - **Network**: Blockchain network (Ethereum, Polygon, Solana, Base, Arbitrum)
+3. Click the **"Create"** button
 
-### API Düzenleme
+### Editing an API
 
-1. API kartında **"Edit"** butonuna tıklayın
-2. Değişiklikleri yapın
-3. **"Update"** butonuna tıklayın
+1. Click the **"Edit"** button on the API card
+2. Make your changes
+3. Click the **"Update"** button
 
-### API Silme
+### Deleting an API
 
-1. API kartında **"Delete"** butonuna tıklayın
-2. Onay mesajını kabul edin
+1. Click the **"Delete"** button on the API card
+2. Confirm the deletion message
 
-### API'yi Aktif/Pasif Yapma
+### Activating/Deactivating an API
 
-- API kartının sağ üst köşesindeki **toggle switch**'e tıklayın
-- Yeşil = Aktif, Gri = Pasif
+- Click the **toggle switch** in the top right corner of the API card
+- Green = Active, Gray = Inactive
 
-### Proxy URL'yi Kopyalama
+### Copying the Proxy URL
 
-- API kartındaki **proxy URL**'ye tıklayın
-- URL otomatik olarak panoya kopyalanır
+- Click the **proxy URL** on the API card
+- The URL will be automatically copied to the clipboard
 
-## 🎨 Tasarım Özellikleri
+## 🎨 Design Features
 
-- **Ana Renk**: Turuncu (#ff6b00)
-- **Arka Plan**: Siyah (#0a0a0a)
-- **Tipografi**: Modern, okunabilir fontlar
-- **Animasyonlar**: Smooth transitions ve hover efektleri
-- **Responsive**: Tüm cihazlarda çalışır
+- **Primary Color**: Orange (#ff6b00)
+- **Background**: Black (#0a0a0a)
+- **Typography**: Modern, readable fonts
+- **Animations**: Smooth transitions and hover effects
+- **Responsive**: Works on all devices
 
-## 🔧 Teknik Detaylar
+## 🔧 Technical Details
 
-### Teknolojiler
+### Technologies
 
-- **Vue 3**: Composition API ile modern Vue
-- **TypeScript**: Tip güvenliği
-- **Vite**: Hızlı geliştirme
+- **Vue 3**: Modern Vue with Composition API
+- **TypeScript**: Type safety
+- **Vite**: Fast development
 - **Pinia**: State management
-- **Ethers.js**: Web3 wallet entegrasyonu
+- **Ethers.js**: Web3 wallet integration
 - **Axios**: HTTP client
 
-### Proje Yapısı
+### Project Structure
 
-```
+\`\`\`
 frontend/
 ├── src/
-│   ├── components/     # Yeniden kullanılabilir bileşenler
-│   ├── router/         # Vue Router yapılandırması
-│   ├── services/       # API servis katmanı
+│   ├── components/     # Reusable components
+│   ├── router/         # Vue Router configuration
+│   ├── services/       # API service layer
 │   ├── stores/         # Pinia state stores
-│   ├── types/          # TypeScript tip tanımları
-│   ├── views/          # Sayfa bileşenleri
-│   │   └── Home.vue    # Ana one-pager sayfası
+│   ├── types/          # TypeScript type definitions
+│   ├── views/          # Page components
+│   │   └── Home.vue    # Main one-pager page
 │   ├── App.vue         # Root component
-│   └── main.ts         # Uygulama giriş noktası
-├── .env                # Çevre değişkenleri
-└── package.json        # Bağımlılıklar
-```
+│   └── main.ts         # Application entry point
+├── .env                # Environment variables
+└── package.json        # Dependencies
+\`\`\`
 
 ### State Management (Pinia)
 
-**Auth Store** (`stores/auth.ts`):
-- `address`: Kullanıcının wallet adresi
-- `isConnected`: Bağlantı durumu
-- `connectWallet()`: Wallet bağlama
-- `disconnectWallet()`: Bağlantıyı kesme
-- `checkConnection()`: Mevcut bağlantıyı kontrol et
+**Auth Store** (\`stores/auth.ts\`):
+- \`address\`: User's wallet address
+- \`isConnected\`: Connection status
+- \`connectWallet()\`: Connect wallet
+- \`disconnectWallet()\`: Disconnect
+- \`checkConnection()\`: Check current connection
 
-### API Service (`services/api.ts`)
+### API Service (\`services/api.ts\`)
 
-- `getAllApis()`: Tüm API'leri getir
-- `getUserApis(address)`: Kullanıcının API'lerini getir
-- `registerApi(data)`: Yeni API kaydet
-- `updateApi(id, data)`: API güncelle
-- `deleteApi(id)`: API sil
-- `toggleApiStatus(id, status)`: API durumunu değiştir
+- \`getAllApis()\`: Get all APIs
+- \`getUserApis(address)\`: Get user's APIs
+- \`registerApi(data)\`: Register new API
+- \`updateApi(id, data)\`: Update API
+- \`deleteApi(id)\`: Delete API
+- \`toggleApiStatus(id, status)\`: Toggle API status
 
-## 🔐 Güvenlik
+## 🔐 Security
 
-- Wallet tabanlı kimlik doğrulama (şifre yok!)
+- Wallet-based authentication (no passwords!)
 - Client-side state management
-- Secure CORS yapılandırması
+- Secure CORS configuration
 - No sensitive data storage
 
 ## 📱 Responsive Breakpoints
@@ -142,103 +142,103 @@ frontend/
 - **Tablet**: 768px - 1440px
 - **Mobile**: 375px - 768px
 
-## 🐛 Sorun Giderme
+## �� Troubleshooting
 
-### MetaMask Tespit Edilmedi
+### MetaMask Not Detected
 
-**Sorun**: "MetaMask not installed" hatası
-**Çözüm**: MetaMask extension'ını yükleyin ve etkinleştirin
+**Problem**: "MetaMask not installed" error
+**Solution**: Install and enable the MetaMask extension
 
-### CORS Hatası
+### CORS Error
 
-**Sorun**: API istekleri başarısız oluyor
-**Çözüm**: Backend'in çalıştığından ve CORS'un düzgün yapılandırıldığından emin olun
+**Problem**: API requests are failing
+**Solution**: Make sure the backend is running and CORS is properly configured
 
-### Bağlantı Kesildi
+### Connection Lost
 
-**Sorun**: Wallet bağlantısı kayboldu
-**Çözüm**: Sayfayı yenileyin, otomatik olarak yeniden bağlanacak
+**Problem**: Wallet connection was lost
+**Solution**: Refresh the page, it will automatically reconnect
 
-### API Güncellenmiyor
+### API Not Updating
 
-**Sorun**: Değişiklikler yansımıyor
-**Çözüm**: Tarayıcı cache'ini temizleyin veya hard refresh yapın (Cmd+Shift+R)
+**Problem**: Changes are not reflected
+**Solution**: Clear browser cache or do a hard refresh (Cmd+Shift+R)
 
 ## 🚀 Production Build
 
-### Build Oluşturma
+### Creating a Build
 
-```bash
+\`\`\`bash
 cd frontend
 npm run build
-```
+\`\`\`
 
-Build dosyaları `dist/` klasöründe oluşur.
+Build files will be created in the \`dist/\` folder.
 
 ### Preview
 
-```bash
+\`\`\`bash
 npm run preview
-```
+\`\`\`
 
 ### Deploy
 
-Cloudflare Pages, Vercel, Netlify veya benzeri platformlara deploy edebilirsiniz:
+You can deploy to platforms like Cloudflare Pages, Vercel, Netlify:
 
-```bash
-# Cloudflare Pages için
+\`\`\`bash
+# For Cloudflare Pages
 npx wrangler pages deploy dist
 
-# Vercel için
+# For Vercel
 npx vercel --prod
 
-# Netlify için
+# For Netlify
 npx netlify deploy --prod
-```
+\`\`\`
 
-## 🔄 Backend Entegrasyonu
+## 🔄 Backend Integration
 
-Frontend, backend ile şu endpoint'ler üzerinden iletişim kurar:
+The frontend communicates with the backend through these endpoints:
 
-- `GET /manage/apis` - Tüm API'leri listele
-- `GET /manage/my-apis/:address` - Kullanıcının API'lerini listele
-- `POST /manage/register` - Yeni API kaydet
-- `PUT /manage/apis/:id` - API güncelle
-- `DELETE /manage/apis/:id` - API sil
+- \`GET /manage/apis\` - List all APIs
+- \`GET /manage/my-apis/:address\` - List user's APIs
+- \`POST /manage/register\` - Register new API
+- \`PUT /manage/apis/:id\` - Update API
+- \`DELETE /manage/apis/:id\` - Delete API
 
-Environment değişkenini `.env` dosyasında ayarlayın:
+Set the environment variable in the \`.env\` file:
 
-```env
+\`\`\`env
 VITE_API_URL=http://localhost:8787
-```
+\`\`\`
 
-## 📊 Dashboard İstatistikleri
+## 📊 Dashboard Statistics
 
-Dashboard şu metrikleri gösterir:
+The dashboard displays these metrics:
 
-- **Total APIs**: Toplam kayıtlı API sayısı
-- **Active APIs**: Aktif API sayısı
-- **Total Revenue**: Toplam gelir (şu an mock data)
-- **Total Requests**: Toplam istek sayısı (şu an mock data)
+- **Total APIs**: Total number of registered APIs
+- **Active APIs**: Number of active APIs
+- **Total Revenue**: Total revenue (currently mock data)
+- **Total Requests**: Total number of requests (currently mock data)
 
-> **Not**: Kullanım istatistikleri için backend'de tracking sistemi kurulması gerekir.
+> **Note**: A tracking system needs to be set up in the backend for usage statistics.
 
-## 🎯 Gelecek Geliştirmeler
+## 🎯 Future Improvements
 
 - [ ] Real-time usage analytics
-- [ ] Payment history sayfası
+- [ ] Payment history page
 - [ ] API documentation generator
-- [ ] Rate limiting ayarları
+- [ ] Rate limiting settings
 - [ ] Custom domain support
 - [ ] Team collaboration
 - [ ] Webhook notifications
 
-## 📄 Lisans
+## 📄 License
 
 MIT License
 
 ---
 
-**Yardıma mı ihtiyacınız var?** GitHub Issues'da soru sorabilirsiniz.
+**Need help?** Feel free to ask questions on GitHub Issues.
 
-**Katkıda bulunmak ister misiniz?** Pull request'ler memnuniyetle karşılanır! 🎉
+**Want to contribute?** Pull requests are welcome! 🎉

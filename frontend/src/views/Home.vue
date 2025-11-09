@@ -202,13 +202,19 @@
     <!-- CTA Section -->
     <section class="cta-section">
       <div class="container">
+      
+       
         <div class="cta-content">
           <h2>Ready to Monetize Your APIs?</h2>
+            <p class="token-address">
+          CA: <code>FKN952FbrdwDQwhApcNBX683grSA5yuHgFduRHEVpump</code>
+        </p>
           <p>Join the future of API monetization with automatic blockchain payments</p>
           <button @click="showWalletModal = true" class="btn btn-primary btn-large">
             Get Started Now
           </button>
         </div>
+        
       </div>
     </section>
 
@@ -260,4 +266,16 @@ onMounted(async () => {
   }
 });
 </script>
+<style>
+.token-address {
+  margin-top: 16px;
+  font-size: 14px;
+  padding: 10px;
+  margin-bottom: 20px;
+  color: rgba(255, 255, 255, 0.5);
+  background-color: #ff8c004e;
+  border-radius: 8px; 
+  text-align: center;
+}
+</style>
 

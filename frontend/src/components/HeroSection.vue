@@ -10,6 +10,8 @@
           Connect your Solana wallet, register your APIs, and start earning SOL for every request.
           No setup fees, no monthly subscriptions - just pay-per-use on Solana.
         </p>
+        <!-- token address -->
+       
         <button 
           @click="$emit('connect')" 
           class="btn btn-primary btn-large"
@@ -164,4 +166,5 @@ defineEmits<{
     font-size: 16px;
   }
 }
+
 </style>

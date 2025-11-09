@@ -2,6 +2,7 @@ import type { Context, MiddlewareHandler } from "hono";
 import { paymentMiddleware, type Network, type Resource } from "x402-hono";
 import { ApiRegistry } from "./api-registry";
 import { Address as Address$1 } from '@solana/kit';
+import { PAYWALL_TEMPLATE } from "./template";
 
 interface PaymentConfig {
   facilitatorUrl: Resource;
@@ -29,7 +30,7 @@ export function createDynamicPaymentMiddleware(
       const api = await registry.getApiByPath(path);
 
       if (!api) {
-        return c.json({ 
+        return c.json({
           error: "API Not Found",
           message: "The requested API endpoint does not exist",
           code: "API_NOT_FOUND"
@@ -37,7 +38,7 @@ export function createDynamicPaymentMiddleware(
       }
 
       if (!api.is_active) {
-        return c.json({ 
+        return c.json({
           error: "API Inactive",
           message: "This API has been deactivated by the owner",
           code: "API_INACTIVE"
@@ -45,8 +46,9 @@ export function createDynamicPaymentMiddleware(
       }
 
 
-     
+
       // Create payment middleware for this specific API
+      
       const pathConfig: Record<string, { price: string; network: Network }> = {
         [path]: {
           price: api.price,
@@ -56,7 +58,7 @@ export function createDynamicPaymentMiddleware(
       // check address is fit to network
       if (api.network && api.owner_address) {
         if (api.network === 'solana' && !api.owner_address.match(/^[1-9A-HJ-NP-Za-km-z]{32,44}$/)) {
-          return c.json({ 
+          return c.json({
             error: "Invalid Payment Address",
             message: "The payment address is not a valid Solana address",
             code: "INVALID_PAYMENT_ADDRESS"
@@ -73,16 +75,37 @@ export function createDynamicPaymentMiddleware(
       });
 
       // Run x402-hono payment middleware
-      const payment = paymentMiddleware(
-        api.owner_address as Address$1,
-        pathConfig,
-        {
-          url: config.facilitatorUrl,
-        }
-      );
-
-      // Execute payment middleware
-      return await payment(c, next);
+      try {
+        const payment = paymentMiddleware(
+          api.owner_address as Address$1,
+          pathConfig,
+          {
+            url: config.facilitatorUrl,
+          }
+        );
+        
+        // Execute payment middleware
+        // The middleware will either:
+        // 1. Return 402 Payment Required if no payment
+        // 2. Verify payment, call next(), settle, then return the response
+        return await payment(c, async () => {
+          // After successful payment verification, proxy the request to target API
+          const proxyResponse = await proxyToTargetApi(c, api.target_url, path, api.headers);
+          
+          // Create new headers from proxy response
+          const finalHeaders = new Headers(proxyResponse.headers);
+          
+          // Set the response with preserved stream and headers
+          c.res = new Response(proxyResponse.body, {
+            status: proxyResponse.status,
+            statusText: proxyResponse.statusText,
+            headers: finalHeaders
+          });
+        });
+      } catch (error) {
+        console.error("Payment middleware error:", error);
+        return c.json({ error: "Payment Error facilitator error" }, 402);
+      }
     }
 
     // Continue normally for other routes
@@ -147,12 +170,15 @@ export async function proxyToTargetApi(c: Context, targetUrl: string, originalPa
     );
   }
 
-  const fullUrl = `${targetUrl.replace(/\/$/, "")}${targetPath || "/"}`;
+  // Build full URL - only add targetPath if it exists and is not just "/"
+  const fullUrl = targetPath && targetPath !== "/" 
+    ? `${targetUrl.replace(/\/$/, "")}${targetPath}`
+    : targetUrl.replace(/\/$/, "");
 
   try {
     // Prepare headers for target API
     const headers = new Headers();
-    
+
     // Copy relevant headers from original request
     const headersToForward = [
       "content-type",
@@ -200,17 +226,18 @@ export async function proxyToTargetApi(c: Context, targetUrl: string, originalPa
       response = await fetch(fullUrl, {
         method: c.req.method,
         headers: headers,
-        body: c.req.method !== "GET" && c.req.method !== "HEAD" 
-          ? await c.req.raw.clone().arrayBuffer() 
+        body: c.req.method !== "GET" && c.req.method !== "HEAD"
+          ? await c.req.raw.clone().arrayBuffer()
           : undefined,
         signal: controller.signal,
         redirect: "follow",
       });
     } catch (fetchError) {
       clearTimeout(timeoutId);
-      
+
       const errorMessage = fetchError instanceof Error ? fetchError.message : String(fetchError);
-      
+      console.error("Fetch error:", errorMessage);
+
       // Categorize fetch errors
       if (errorMessage.includes("aborted")) {
         console.error("Proxy timeout:", fullUrl);
@@ -224,7 +251,7 @@ export async function proxyToTargetApi(c: Context, targetUrl: string, originalPa
           504
         );
       }
-      
+
       if (errorMessage.includes("ENOTFOUND") || errorMessage.includes("getaddrinfo")) {
         console.error("DNS resolution failed:", fullUrl, errorMessage);
         return c.json(
@@ -237,7 +264,7 @@ export async function proxyToTargetApi(c: Context, targetUrl: string, originalPa
           502
         );
       }
-      
+
       if (errorMessage.includes("ECONNREFUSED")) {
         console.error("Connection refused:", fullUrl, errorMessage);
         return c.json(
@@ -250,7 +277,7 @@ export async function proxyToTargetApi(c: Context, targetUrl: string, originalPa
           503
         );
       }
-      
+
       if (errorMessage.includes("certificate") || errorMessage.includes("SSL") || errorMessage.includes("TLS")) {
         console.error("SSL/TLS error:", fullUrl, errorMessage);
         return c.json(
@@ -263,7 +290,7 @@ export async function proxyToTargetApi(c: Context, targetUrl: string, originalPa
           502
         );
       }
-      
+
       // Generic network error
       console.error("Network error:", fullUrl, errorMessage);
       return c.json(
@@ -280,27 +307,18 @@ export async function proxyToTargetApi(c: Context, targetUrl: string, originalPa
     clearTimeout(timeoutId);
 
     // Check if target API returned an error status
-    if (!response.ok) {
-      console.warn("Target API returned error status:", {
-        url: fullUrl,
-        status: response.status,
-        statusText: response.statusText,
-      });
-      
-      // For 5xx errors from target API, wrap in our error format
-      if (response.status >= 500) {
-        return c.json(
-          createProxyError(
-            ProxyErrorCode.TARGET_API_ERROR,
-            `Target API returned error: ${response.status} ${response.statusText}`,
-            response.status,
-            fullUrl
-          ),
-          502
-        );
-      }
+    if (!response.ok && response.status >= 500) {
+      return c.json(
+        createProxyError(
+          ProxyErrorCode.TARGET_API_ERROR,
+          `Target API returned error: ${response.status} ${response.statusText}`,
+          response.status,
+          fullUrl
+        ),
+        502
+      );
     }
-
+    
     // Return successful response from target API
     const responseHeaders = new Headers(response.headers);
     responseHeaders.set("X-Proxy-By", "P402");
@@ -311,16 +329,12 @@ export async function proxyToTargetApi(c: Context, targetUrl: string, originalPa
       statusText: response.statusText,
       headers: responseHeaders,
     });
-    
+
   } catch (error) {
     // Catch-all for unexpected errors
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error("Unexpected proxy error:", {
-      url: fullUrl,
-      error: errorMessage,
-      stack: error instanceof Error ? error.stack : undefined,
-    });
-    
+    console.error("Unexpected proxy error:", error);
+
     return c.json(
       createProxyError(
         ProxyErrorCode.UNKNOWN_ERROR,

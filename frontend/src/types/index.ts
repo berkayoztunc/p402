@@ -34,3 +34,50 @@ export interface UsageStats {
   apiCount: number;
   activeApis: number;
 }
+
+export interface PaymentHistory {
+  id: number;
+  endpoint: 'verify' | 'settle';
+  network: string;
+  payer: string | null;
+  amount: string | null;
+  token: string | null;
+  recipient: string | null;
+  success: number;
+  error_reason: string | null;
+  transaction_hash: string | null;
+  created_at: number;
+}
+
+export interface PaymentAnalytics {
+  date: string;
+  endpoint: string;
+  network: string;
+  total_requests: number;
+  successful_requests: number;
+  failed_requests: number;
+  success_rate: number;
+}
+
+export interface PaymentStats {
+  total_payments: number;
+  successful_payments: number;
+  failed_payments: number;
+  unique_payers: number;
+  networks_used: number;
+  recent_payments: number;
+  by_network: Array<{
+    network: string;
+    count: number;
+    successful: number;
+  }>;
+}
+
+export interface PaymentHistoryFilters {
+  endpoint?: 'verify' | 'settle';
+  network?: string;
+  success?: boolean;
+  payer?: string;
+  limit?: number;
+  offset?: number;
+}

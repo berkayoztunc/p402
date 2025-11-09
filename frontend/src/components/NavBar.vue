@@ -15,6 +15,9 @@
         <button @click="navigateTo('/dashboard')" class="nav-link">
           Dashboard
         </button>
+        <button @click="navigateTo('/payment-history')" class="nav-link">
+          Payment History
+        </button>
         <button @click="navigateTo('/documentation')" class="nav-link">
           Documentation
         </button>

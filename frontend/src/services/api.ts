@@ -1,5 +1,5 @@
 import axios from 'axios';
-import type { Api, ApiFormData } from '../types';
+import type { Api, ApiFormData, PaymentHistory, PaymentAnalytics, PaymentStats, PaymentHistoryFilters } from '../types';
 
 const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:8787';
 
@@ -42,6 +42,39 @@ export const apiService = {
   // Toggle API active status
   async toggleApiStatus(id: string, isActive: boolean): Promise<void> {
     await apiClient.put(`/manage/apis/${id}`, { is_active: isActive ? 1 : 0 });
+  },
+
+  // Get payment history with filters
+  async getPaymentHistory(filters?: PaymentHistoryFilters): Promise<{
+    data: PaymentHistory[];
+    pagination: { total: number; limit: number; offset: number };
+  }> {
+    const params = new URLSearchParams();
+    
+    if (filters?.endpoint) params.append('endpoint', filters.endpoint);
+    if (filters?.network) params.append('network', filters.network);
+    if (filters?.success !== undefined) params.append('success', String(filters.success));
+    if (filters?.payer) params.append('payer', filters.payer);
+    if (filters?.limit) params.append('limit', String(filters.limit));
+    if (filters?.offset) params.append('offset', String(filters.offset));
+    
+    const response = await apiClient.get(`/manage/payment-history?${params.toString()}`);
+    return {
+      data: response.data.data,
+      pagination: response.data.pagination
+    };
+  },
+
+  // Get payment analytics
+  async getPaymentAnalytics(days: number = 30): Promise<PaymentAnalytics[]> {
+    const response = await apiClient.get(`/manage/payment-analytics?days=${days}`);
+    return response.data.data;
+  },
+
+  // Get payment statistics summary
+  async getPaymentStats(): Promise<PaymentStats> {
+    const response = await apiClient.get('/manage/payment-stats');
+    return response.data.stats;
   },
 };
 

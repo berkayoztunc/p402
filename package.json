@@ -4,6 +4,7 @@
 	"scripts": {
 		"dev": "wrangler dev",
 		"deploy": "npm run build:frontend && wrangler deploy --minify",
+		"deployb": "wrangler deploy --minify",
 		"cf-typegen": "wrangler types --env-interface CloudflareBindings",
 		"db:create": "wrangler d1 create p402_apis",
 		"db:migrate:local": "wrangler d1 execute p402_apis --local --file=./migrations/0001_create_apis.sql",
@@ -11,6 +12,9 @@
 		"build:frontend": "cd frontend && npm run build"
 	},
 	"dependencies": {
+		"@solana-program/token": "^0.8.0",
+		"@solana-program/token-2022": "^0.6.1",
+		"@solana/kit": "^5.0.0",
 		"@solana/web3.js": "^1.98.4",
 		"bs58": "^6.0.0",
 		"hono": "^4.10.4",
