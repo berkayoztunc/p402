@@ -5,7 +5,6 @@
         <div class="footer-left">
           <div class="logo-section">
             <img src="/logo.png" alt="P402" class="footer-logo" />
-            <span class="brand-name">P402</span>
           </div>
           <p class="tagline">Decentralized API marketplace on Solana</p>
         </div>

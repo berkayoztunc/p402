@@ -9,7 +9,7 @@
         <div class="section-header">
           <div>
             <h1 class="section-title">Payment History</h1>
-            <p class="section-subtitle">Track all Solana payment transactions and analytics</p>
+            <p class="section-subtitle">Track all p402 payment transactions and analytics</p>
           </div>
         </div>
 
