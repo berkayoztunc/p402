@@ -1,174 +1,78 @@
-# P402 Facilitator Rehberi
+# P402 Facilitator Guide
 
-## Genel Bakış
+## Overview
 
-P402 platformu, kendi özel **Facilitator** servisini kullanarak blockchain tabanlı ödeme işlemlerini yönetir. Facilitator, API kullanıcılarının ödeme yapabilmeleri ve API sahiplerinin ödemelerini alabilmeleri için kritik bir köprü görevi görür.
+The P402 platform manages blockchain-based payment operations using its dedicated **Facilitator** service. The Facilitator acts as a critical bridge that enables API users to make payments and API owners to receive them.
 
-## Facilitator Nedir?
+## What is a Facilitator?
 
-Facilitator, x402 protokolünün merkezi bir bileşenidir ve şu görevleri yerine getirir:
+The Facilitator is a central component of the x402 protocol and performs the following key tasks:
 
-- 🔐 **Ödeme Doğrulama**: Ödeme taleplerini doğrular
-- 📝 **İşlem Oluşturma**: Blockchain işlemlerini oluşturur
-- ⚡ **Ödeme Mutabakatı**: Ödemeleri API sahiplerine aktarır
-- 🛡️ **Güvenlik**: Güvenli işlem yönetimi sağlar
+- 🔐 **Payment Verification**: Validates payment requests  
+- 📝 **Transaction Creation**: Constructs blockchain transactions  
+- ⚡ **Payment Settlement**: Transfers payments to API owners  
+- 🛡️ **Security**: Ensures secure transaction management  
 
-## P402'nin Özel Facilitator'ı
 
-P402, **kendi facilitator servisini** kullanır:
 
-```
-https://facilitator.p402.store
-```
+### Why a Custom Facilitator?
 
-### Neden Özel Facilitator?
+✅ **Full Control**: Complete control over the platform  
+✅ **Custom Logic**: Ability to customize business logic  
+✅ **Performance**: Optimized for speed and efficiency  
+✅ **Reliability**: Guaranteed high availability  
+✅ **Cost Optimization**: Better cost management  
 
-✅ **Tam Kontrol**: Platform üzerinde tam kontrol  
-✅ **Özel Mantık**: İş mantığını özelleştirebilme  
-✅ **Performans**: Optimize edilmiş performans  
-✅ **Güvenilirlik**: Yüksek erişilebilirlik garantisi  
-✅ **Maliyet Optimizasyonu**: Maliyet kontrolü  
-
-## Mimari
+## Architecture
 
 ```
 ┌─────────────┐
-│  İstemci    │
-│  (Cüzdan)   │
+│   Client    │
+│  (Wallet)   │
 └──────┬──────┘
-       │ 1. API İsteği
+       │ 1. API Request
        │
        ▼
 ┌─────────────┐
 │  P402 API   │
 │ Middleware  │
 └──────┬──────┘
-       │ 2. Ödeme Gerekli (402)
+       │ 2. Payment Required (402)
        │ + Facilitator URL
        │
        ▼
 ┌─────────────┐
-│ Facilitator │ ◄─── https://facilitator.p402.store
-│  (P402)     │
+│ Facilitator │ ◄─── https://____.p402.store
+│   (P402)    │
 └──────┬──────┘
-       │ 3. İşlem Oluştur
-       │ 4. Ödemeyi Doğrula
+       │ 3. Create Transaction
+       │ 4. Verify Payment
        │
        ▼
 ┌─────────────┐
-│  Blockchain │
+│ Blockchain  │
 │   (Solana)  │
 └─────────────┘
 ```
 
-## Nasıl Çalışır?
+## Configuration
 
-### 1. API İstek Akışı
 
-Kullanıcı bir P402 API'sine istek gönderir:
 
-```bash
-curl https://p402.store/api/YOUR_API_ID/endpoint
-```
+### Worker Configuration
 
-### 2. Ödeme Gerekli Yanıtı
-
-API, ödeme gerektiren bir endpoint ise `402 Payment Required` yanıtı döner:
-
-```json
-{
-  "statusCode": 402,
-  "message": "Payment Required",
-  "paymentRequirements": {
-    "network": "solana",
-    "asset": "So11111111111111111111111111111111111111112",
-    "maxAmountRequired": "1000000",
-    "payTo": "API_OWNER_WALLET_ADDRESS",
-    "extra": {
-      "feePayer": "FACILITATOR_FEE_PAYER_WALLET"
-    }
-  },
-  "facilitatorUrl": "https://facilitator.p402.store"
-}
-```
-
-### 3. Ödeme İşleme
-
-İstemci, facilitator'a ödeme talebi gönderir:
-
-```javascript
-const paymentResponse = await fetch('https://facilitator.p402.store/pay', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    paymentRequirements: paymentRequirements,
-    payerAddress: wallet.publicKey.toString()
-  })
-});
-
-const { transaction } = await paymentResponse.json();
-```
-
-### 4. İşlem İmzalama ve Doğrulama
-
-İstemci işlemi imzalar ve doğrulama için gönderir:
-
-```javascript
-// İşlemi imzala
-const signedTx = await wallet.signTransaction(transaction);
-
-// Doğrulama için gönder
-const verifyResponse = await fetch('https://facilitator.p402.store/verify', {
-  method: 'POST',
-  headers: {
-    'Content-Type': 'application/json',
-  },
-  body: JSON.stringify({
-    transaction: signedTx.serialize()
-  })
-});
-
-const { proof } = await verifyResponse.json();
-```
-
-### 5. Kanıtla API Erişimi
-
-Artık ödeme kanıtıyla API'ye erişim sağlanır:
-
-```javascript
-const apiResponse = await fetch('https://p402.store/api/YOUR_API_ID/endpoint', {
-  headers: {
-    'X-Payment-Proof': proof
-  }
-});
-```
-
-## Konfigürasyon
-
-### Ortam Değişkenleri
-
-P402 platformu, facilitator URL'ini ortam değişkeni olarak tanımlar:
-
-```env
-FACILITATOR_URL=https://facilitator.p402.store
-```
-
-### Worker Konfigürasyonu
-
-`worker-configuration.d.ts` dosyasında tanımlı:
+Defined in `worker-configuration.d.ts`:
 
 ```typescript
 interface Env {
   FACILITATOR_URL: string;
-  // ... diğer ayarlar
+  // ... other settings
 }
 ```
 
-### Ödeme Middleware
+### Payment Middleware
 
-`src/payment-middleware.ts` ve `src/index.ts` dosyalarında kullanımı:
+Used in `src/payment-middleware.ts` and `src/index.ts`:
 
 ```typescript
 const middleware = createDynamicPaymentMiddleware(c.env.DB, {
@@ -178,124 +82,70 @@ const middleware = createDynamicPaymentMiddleware(c.env.DB, {
 });
 ```
 
-## Desteklenen Ağlar
+## Supported Networks
 
-P402 Facilitator şu ağları destekler:
+P402 Facilitator supports the following networks:
 
-| Ağ | Durum | Varlık |
-|---------|--------|-------|
-| Solana Mainnet | ✅ Aktif | SOL, SPL Token'lar |
-| Solana Devnet | ✅ Aktif | SOL (Test) |
+| Network | Status | Asset |
+|----------|---------|--------|
+| Solana Mainnet | ✅ Active | SOL, SPL Tokens |
+| Solana Devnet | ✅ Active | SOL (Test) |
 
-## Ödeme Gereksinimleri Yapısı
+## Payment Requirements Structure
 
-Her API'nin ödeme gereksinimleri dinamik olarak belirlenir:
+Each API defines its payment requirements dynamically:
 
 ```typescript
 interface PaymentRequirements {
   network: 'solana';
-  asset: string;              // Token mint adresi
-  maxAmountRequired: string;  // Lamports/en küçük birim
-  payTo: string;             // API sahibinin cüzdanı
+  asset: string;              // Token mint address
+  maxAmountRequired: string;  // Lamports / smallest unit
+  payTo: string;              // API owner’s wallet
   extra: {
-    feePayer: string;        // Facilitator'ın ücret ödeyicisi
+    feePayer: string;         // Facilitator’s fee payer wallet
   };
 }
 ```
 
-## Güvenlik Özellikleri
+## Security Features
 
-🔒 **İşlem Doğrulama**: Her işlem blockchain üzerinde doğrulanır  
-🔒 **Kanıt Tabanlı Erişim**: Kanıt bazlı erişim kontrolü  
-🔒 **Ücret Ödeyici Koruması**: Facilitator ücret ödeyicisini güvenli tutar  
-🔒 **Ağ Doğrulaması**: Adres formatları ağa göre doğrulanır  
+🔒 **Transaction Verification**: Every transaction is verified on-chain  
+🔒 **Proof-Based Access**: Access is granted using cryptographic proof  
+🔒 **Fee Payer Protection**: Keeps the facilitator’s fee payer wallet secure  
+🔒 **Network Validation**: Address formats are validated per network  
 
-## Hata Yönetimi
+## Error Handling
 
-Facilitator ile ilgili hatalar:
+Common facilitator-related errors:
 
-| Hata Kodu | Açıklama | Çözüm |
-|------------|-------------|----------|
-| `FACILITATOR_ERROR` | Facilitator servisi yanıt vermiyor | Tekrar deneyin |
-| `INVALID_PAYMENT_ADDRESS` | Ödeme adresi geçersiz | Cüzdan adresini kontrol edin |
-| `PAYMENT_VERIFICATION_FAILED` | Ödeme doğrulaması başarısız | İşlemi tekrar gönderin |
-| `INSUFFICIENT_FUNDS` | Yetersiz bakiye | Cüzdanınıza yeterli SOL ekleyin |
+| Error Code | Description | Solution |
+|-------------|--------------|-----------|
+| `FACILITATOR_ERROR` | Facilitator service not responding | Try again later |
+| `INVALID_PAYMENT_ADDRESS` | Invalid payment address | Check the wallet address |
+| `PAYMENT_VERIFICATION_FAILED` | Payment verification failed | Resubmit the transaction |
+| `INSUFFICIENT_FUNDS` | Insufficient balance | Add more SOL to your wallet |
 
-## API Sahipleri İçin Avantajlar
 
-✨ **Otomatik Ödeme Toplama**: Ödemeler otomatik olarak toplanır  
-✨ **Entegrasyon Gerektirmez**: Ek entegrasyon gerektirmez  
-✨ **Çoklu Ağ Desteği**: Farklı blockchain ağlarını destekler  
-✨ **Anında Mutabakat**: Anlık ödeme transferi  
-✨ **Düşük Ücretler**: Optimize edilmiş işlem ücretleri  
+## Upcoming Features
 
-## API Kullanıcıları İçin Avantajlar
+🚀 **Multi-Chain Support**: Ethereum, Polygon, and more  
+🚀 **Advanced Analytics**: Transaction analytics and reporting  
+🚀 **Custom Fee Models**: Configurable fee structures  
+🚀 **WebSocket Support**: Real-time payment notifications  
 
-✨ **Güvenli Ödemeler**: Güvenli ödeme sistemi  
-✨ **Hızlı İşlemler**: Hızlı işlem süresi  
-✨ **Şeffaf Fiyatlandırma**: Şeffaf fiyatlandırma  
-✨ **Çoklu Cüzdan**: Çeşitli cüzdan desteği  
-✨ **Kolay Entegrasyon**: x402 SDK ile kolay entegrasyon  
+## Support
 
-## İstemci Entegrasyonu
+If you encounter issues with the Facilitator:
 
-### x402 SDK Kullanımı
+- 📧 Email: support@p402.store  
 
-```bash
-npm install x402
-```
+## Related Documentation
 
-```javascript
-import { X402Client } from 'x402';
-
-const client = new X402Client({
-  wallet: yourSolanaWallet,
-  facilitatorUrl: 'https://facilitator.p402.store'
-});
-
-// Ücretli API isteği yap
-const response = await client.request('https://p402.store/api/YOUR_API_ID/endpoint');
-```
-
-### Manuel Entegrasyon
-
-Facilitator'ı manuel olarak kullanmak için yukarıdaki "Nasıl Çalışır?" bölümündeki adımları takip edin.
-
-## İzleme ve Loglar
-
-P402 platformu, facilitator işlemlerini loglar:
-
-```typescript
-console.log("Using payment config for API:", {
-  owner_address: api.owner_address,
-  facilitator: {
-    url: config.facilitatorUrl,
-  }
-});
-```
-
-## Gelecek Geliştirmeler
-
-🚀 **Çoklu Zincir Desteği**: Ethereum, Polygon gibi ağlar  
-🚀 **Gelişmiş Analitik**: İşlem analitiği ve raporlama  
-🚀 **Özel Ücret Modelleri**: Özelleştirilebilir ücret modelleri  
-🚀 **WebSocket Desteği**: Gerçek zamanlı ödeme bildirimleri  
-
-## Destek
-
-Facilitator ile ilgili sorun yaşıyorsanız:
-
-- 📧 Email: support@p402.store
-- 🐛 GitHub Issues: [p402/issues](https://github.com/berkayoztunc/p402/issues)
-- 📖 Tam Dokümantasyon: [P402 Docs](https://p402.store/documentation)
-
-## İlgili Dokümantasyon
-
-- [API Oluşturma Rehberi](./API_CREATION.md)
-- [API Kullanım Rehberi](./API_USAGE.md)
-- [Solana Kimlik Doğrulama](./SOLANA_AUTH_GUIDE.md)
-- [Hata Kodları](./ERROR_CODES.md)
+- [API Creation Guide](./API_CREATION.md)  
+- [API Usage Guide](./API_USAGE.md)  
+- [Solana Authentication](./SOLANA_AUTH_GUIDE.md)  
+- [Error Codes](./ERROR_CODES.md)  
 
 ---
 
-**Not**: P402 Facilitator sürekli güncellenmekte ve geliştirilmektedir. En güncel bilgiler için dokümantasyonu düzenli olarak kontrol edin.
+**Note:** The P402 Facilitator is continuously updated and improved. Check the documentation regularly for the latest information.
