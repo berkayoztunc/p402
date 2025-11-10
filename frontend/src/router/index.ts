@@ -3,6 +3,7 @@ import Home from '../views/Home.vue';
 import Marketplace from '../views/Marketplace.vue';
 import Dashboard from '../views/Dashboard.vue';
 import ApiDetail from '../views/ApiDetail.vue';
+import ApiPlayground from '../views/ApiPlayground.vue';
 import Documentation from '../views/Documentation.vue';
 import PaymentHistory from '../views/PaymentHistory.vue';
 
@@ -23,6 +24,11 @@ const router = createRouter({
       path: '/api/:id',
       name: 'api-detail',
       component: ApiDetail,
+    },
+    {
+      path: '/playground',
+      name: 'playground',
+      component: ApiPlayground,
     },
     {
       path: '/dashboard',

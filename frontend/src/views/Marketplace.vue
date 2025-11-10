@@ -3,15 +3,22 @@
     <!-- Navigation Header -->
     <NavBar @connect="connectWallet" />
     
-    <div class="container">
-      <!-- Header Section -->
-      <div class="marketplace-header">
-        <h1 class="page-title">
-          <span class="gradient-text">API Marketplace</span>
-        </h1>
-        <p class="subtitle">Discover and integrate powerful APIs built on blockchain</p>
+    <!-- Hero Section -->
+    <section class="marketplace-hero">
+      <div class="section-background">
+        <div class="section-glow"></div>
       </div>
+      <div class="container">
+        <div class="hero-content">
+          <h1 class="page-title">
+            <span class="gradient-text">API Marketplace</span>
+          </h1>
+          <p class="subtitle">Discover and integrate powerful APIs built on blockchain</p>
+        </div>
+      </div>
+    </section>
 
+    <div class="container">
       <!-- Stats Overview -->
       <div class="stats-overview">
         <div class="stat-card">
@@ -297,6 +304,63 @@ onMounted(() => {
 </script>
 
 <style scoped>
+/* Hero Section */
+.marketplace-hero {
+  position: relative;
+  padding: 1.5rem 0 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.section-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.section-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 107, 0, 0.08) 0%, transparent 70%);
+  filter: blur(60px);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.page-title {
+  font-size: 2.5rem;
+  margin: 0;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* Stats Overview */
 .api-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -314,6 +378,10 @@ onMounted(() => {
 @media (max-width: 768px) {
   .api-grid {
     grid-template-columns: 1fr;
+  }
+
+  .page-title {
+    font-size: 1.75rem;
   }
 }
 

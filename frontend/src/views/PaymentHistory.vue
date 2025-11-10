@@ -3,16 +3,22 @@
     <!-- Navigation -->
     <NavBar @connect="() => {}" />
 
+    <!-- Hero Section -->
+    <section class="payment-hero">
+      <div class="section-background">
+        <div class="section-glow"></div>
+      </div>
+      <div class="container">
+        <h1 class="page-title">
+          <span class="gradient-text">Payment History</span>
+        </h1>
+        <p class="hero-subtitle">Track all x402 payment transactions and analytics</p>
+      </div>
+    </section>
+
     <!-- Payment History Section -->
     <section class="payment-history-section">
       <div class="container">
-        <div class="section-header">
-          <div>
-            <h1 class="section-title">Payment History</h1>
-            <p class="section-subtitle">Track all p402 payment transactions and analytics</p>
-          </div>
-        </div>
-
         <PaymentHistoryTable />
       </div>
     </section>
@@ -31,33 +37,74 @@ import PaymentHistoryTable from '../components/PaymentHistoryTable.vue';
 <style scoped>
 .app {
   min-height: 100vh;
-  background: #0a0a0a;
-  color: #ffffff;
+  background: var(--bg-dark);
+  color: var(--text-primary);
 }
 
-.payment-history-section {
-  padding: 60px 0 100px 0;
-  min-height: calc(100vh - 200px);
+/* Hero Section */
+.payment-hero {
+  position: relative;
+  padding: 1.5rem 0 1rem;
+  margin-bottom: 0.5rem;
 }
 
-.section-header {
-  margin-bottom: 40px;
+.section-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
 }
 
-.section-title {
-  font-size: 42px;
-  text-align: left;
-  font-weight: 800;
-  margin-bottom: 8px;
-  background: linear-gradient(135deg, #ff6b00 0%, #ff8c00 100%);
+.section-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(255, 107, 0, 0.08) 0%, transparent 70%);
+  filter: blur(60px);
+}
+
+.page-title {
+  position: relative;
+  z-index: 1;
+  font-size: 2.5rem;
+  margin: 0;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
-.section-subtitle {
-  font-size: 18px;
-  color: rgba(255, 255, 255, 0.6);
-  margin: 0;
+.hero-subtitle {
+  position: relative;
+  z-index: 1;
+  color: var(--text-muted);
+  font-size: 1rem;
+  margin: 0.5rem 0 0;
+}
+
+.payment-history-section {
+  padding: 3rem 0 5rem 0;
+  min-height: calc(100vh - 300px);
+}
+
+@media (max-width: 768px) {
+  .page-title {
+    font-size: 1.75rem;
+  }
+
+  .payment-history-section {
+    padding: 2rem 0 3rem 0;
+  }
 }
 </style>

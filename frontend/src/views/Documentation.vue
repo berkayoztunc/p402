@@ -2,45 +2,75 @@
   <div class="documentation-page">
     <NavBar />
     
-    <div class="doc-container">
-      <aside class="doc-sidebar">
-        <h2 class="sidebar-title">Documentation</h2>
-        <nav class="doc-nav">
-          <button 
-            v-for="doc in docList" 
-            :key="doc.id"
-            @click="selectDoc(doc)"
-            :class="['doc-nav-item', { active: selectedDoc?.id === doc.id }]"
-          >
-            {{ doc.title }}
-          </button>
-        </nav>
-      </aside>
+    <!-- Hero Section -->
+    <section class="doc-hero">
+      <div class="section-background">
+        <div class="section-glow"></div>
+      </div>
+      <div class="container">
+        <h1 class="page-title">
+          <span class="gradient-text">Documentation</span>
+        </h1>
+        <p class="hero-subtitle">Learn how to use the x402 protocol and integrate with our platform</p>
+      </div>
+    </section>
 
-      <main class="doc-content">
-        <div v-if="loading" class="doc-loading">
-          <div class="spinner"></div>
-          <p>Loading documentation...</p>
-        </div>
+    <div class="container">
+      <div class="doc-container">
+        <aside class="doc-sidebar">
+          <h2 class="sidebar-title">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            Guides
+          </h2>
+          <nav class="doc-nav">
+            <button 
+              v-for="doc in docList" 
+              :key="doc.id"
+              @click="selectDoc(doc)"
+              :class="['doc-nav-item', { active: selectedDoc?.id === doc.id }]"
+            >
+              {{ doc.title }}
+            </button>
+          </nav>
+        </aside>
 
-        <div v-else-if="error" class="doc-error">
-          <h2>⚠️ Error Loading Document</h2>
-          <p>{{ error }}</p>
-        </div>
-
-        <div v-else-if="selectedDoc" class="doc-viewer">
-          <div class="doc-header">
-            <h1>{{ selectedDoc.title }}</h1>
-            <p class="doc-meta">Last updated: {{ selectedDoc.date }}</p>
+        <main class="doc-content">
+          <div v-if="loading" class="doc-loading">
+            <div class="spinner"></div>
+            <p>Loading documentation...</p>
           </div>
-          <div class="markdown-content" v-html="renderedContent"></div>
-        </div>
 
-        <div v-else class="doc-placeholder">
-          <h2>📚 Welcome to Documentation</h2>
-          <p>Select a document from the sidebar to get started.</p>
-        </div>
-      </main>
+          <div v-else-if="error" class="doc-error">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            <h2>Error Loading Document</h2>
+            <p>{{ error }}</p>
+          </div>
+
+          <div v-else-if="selectedDoc" class="doc-viewer">
+            <div class="doc-header">
+              <h1>{{ selectedDoc.title }}</h1>
+              <p class="doc-meta">Last updated: {{ selectedDoc.date }}</p>
+            </div>
+            <div class="markdown-content" v-html="renderedContent"></div>
+          </div>
+
+          <div v-else class="doc-placeholder">
+            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+            </svg>
+            <h2>Welcome to Documentation</h2>
+            <p>Select a guide from the sidebar to get started</p>
+          </div>
+        </main>
+      </div>
     </div>
   </div>
 </template>
@@ -107,94 +137,158 @@ onMounted(() => {
 <style scoped>
 .documentation-page {
   min-height: 100vh;
-  background: #0a0a0a
+  background: var(--bg-primary);
+}
+
+/* Hero Section */
+.doc-hero {
+  position: relative;
+  padding: 2rem 0 0;
+  margin-bottom: 1.5rem;
+  background: var(--bg-secondary);
+}
+
+.section-background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.section-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+  filter: blur(50px);
+}
+
+.page-title {
+  position: relative;
+  z-index: 1;
+  font-size: 2rem;
+  margin: 0;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.gradient-text {
+  background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-subtitle {
+  position: relative;
+  z-index: 1;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  margin: 0.25rem 0 0;
 }
 
 .doc-container {
   display: flex;
-  max-width: 1400px;
-  margin: 0 auto;
-  min-height: calc(100vh - 80px);
+  gap: 1.5rem;
 }
 
 /* Sidebar Styles */
 .doc-sidebar {
-  width: 280px;
-  background: #0a0a0a;
-  backdrop-filter: blur(10px);
-  border-right: 1px solid rgba(255, 107, 0, 0.2);
-  padding: 2rem 1rem;
+  width: 260px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 10px;
+  padding: 1.5rem 0.75rem;
+  height: fit-content;
   position: sticky;
-  top: 80px;
-  height: calc(100vh - 80px);
-  overflow-y: auto;
+  top: 100px;
 }
 
 .sidebar-title {
-  font-size: 1.5rem;
+  font-size: 1rem;
   font-weight: 700;
-  color: #ff6b00;
-  margin-bottom: 1.5rem;
-  padding: 0 1rem;
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+  padding: 0 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.sidebar-title svg {
+  color: var(--primary);
+  width: 18px;
+  height: 18px;
 }
 
 .doc-nav {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.375rem;
 }
 
 .doc-nav-item {
-  padding: 0.75rem 1rem;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 8px;
-  color: rgba(255, 255, 255, 0.7);
+  padding: 0.625rem 0.75rem;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  color: var(--text-secondary);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   text-align: left;
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  font-weight: 500;
 }
 
 .doc-nav-item:hover {
-  background: rgba(255, 107, 0, 0.1);
-  border-color: rgba(255, 107, 0, 0.3);
-  color: #ff6b00;
-  transform: translateX(4px);
+  background: var(--bg-tertiary);
+  border-color: var(--primary);
+  color: var(--primary);
 }
 
 .doc-nav-item.active {
-  background: rgba(255, 107, 0, 0.15);
-  border-color: #ff6b00;
-  color: #ff6b00;
+  background: var(--primary);
+  border-color: var(--primary);
+  color: #fff;
   font-weight: 600;
 }
 
 /* Content Styles */
 .doc-content {
   flex: 1;
-  padding: 2rem 3rem;
+  padding: 1.5rem 2rem;
   overflow-y: auto;
   max-height: calc(100vh - 80px);
+  background: var(--bg-secondary);
+  border-radius: 10px;
+  border: 1px solid var(--border-color);
 }
 
-.doc-loading {
+.doc-loading,
+.doc-placeholder {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
-  color: rgba(255, 255, 255, 0.7);
+  min-height: 300px;
+  text-align: center;
+  color: var(--text-secondary);
 }
 
 .spinner {
-  width: 50px;
-  height: 50px;
-  border: 3px solid rgba(255, 107, 0, 0.1);
-  border-top: 3px solid #ff6b00;
+  width: 40px;
+  height: 40px;
+  border: 2.5px solid var(--border-color);
+  border-top: 2.5px solid var(--primary);
   border-radius: 50%;
   animation: spin 1s linear infinite;
-  margin-bottom: 1rem;
+  margin-bottom: 0.75rem;
 }
 
 @keyframes spin {
@@ -203,28 +297,27 @@ onMounted(() => {
 }
 
 .doc-error {
-  padding: 2rem;
-  background: rgba(220, 38, 38, 0.1);
-  border: 1px solid rgba(220, 38, 38, 0.3);
-  border-radius: 12px;
-  color: #fca5a5;
+  padding: 1.5rem;
+  background: var(--bg-error-light);
+  border: 1px solid var(--border-error);
+  border-radius: 10px;
+  color: var(--text-error);
 }
 
 .doc-error h2 {
-  color: #ef4444;
-  margin-bottom: 1rem;
-}
-
-.doc-placeholder {
-  text-align: center;
-  padding: 4rem 2rem;
-  color: rgba(255, 255, 255, 0.5);
+  color: var(--text-error);
+  margin: 0.5rem 0 0;
+  font-size: 1rem;
 }
 
 .doc-placeholder h2 {
-  font-size: 2rem;
-  margin-bottom: 1rem;
-  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.5rem;
+  margin: 0.5rem 0 0.25rem;
+  color: var(--text-primary);
+}
+
+.doc-placeholder p {
+  font-size: 0.9rem;
 }
 
 /* Document Viewer */
@@ -233,118 +326,97 @@ onMounted(() => {
 }
 
 .doc-header {
-  margin-bottom: 2rem;
-  padding-bottom: 1.5rem;
-  border-bottom: 2px solid rgba(255, 107, 0, 0.3);
+  margin-bottom: 1.5rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
 .doc-header h1 {
-  font-size: 2.5rem;
+  font-size: 1.75rem;
   font-weight: 700;
-  color: #fff;
-  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+  margin: 0;
 }
 
 .doc-meta {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.9rem;
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin: 0.25rem 0 0;
 }
 
-/* Markdown Content Styles */
+/* Markdown Content */
 .markdown-content {
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.8;
-  font-size: 1rem;
+  color: var(--text-primary);
+  line-height: 1.6;
+  font-size: 0.95rem;
 }
 
-/* Headings */
 .markdown-content :deep(h1) {
-  font-size: 2.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
-  color: #ff6b00;
-  margin: 2.5rem 0 1.5rem 0;
+  color: var(--primary);
+  margin: 1.5rem 0 0.75rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(255, 107, 0, 0.3);
+  border-bottom: 2px solid var(--border-color);
 }
 
 .markdown-content :deep(h2) {
-  font-size: 1.875rem;
+  font-size: 1.25rem;
   font-weight: 600;
-  color: #ff8533;
-  margin: 2rem 0 1rem 0;
-  padding-bottom: 0.3rem;
-  border-bottom: 1px solid rgba(255, 107, 0, 0.2);
+  color: var(--text-primary);
+  margin: 1.25rem 0 0.625rem;
+  padding-bottom: 0.375rem;
 }
 
 .markdown-content :deep(h3) {
-  font-size: 1.5rem;
+  font-size: 1.1rem;
   font-weight: 600;
-  color: #ffa366;
-  margin: 1.75rem 0 0.875rem 0;
+  color: var(--text-primary);
+  margin: 1rem 0 0.5rem;
 }
 
-.markdown-content :deep(h4) {
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: #ffb380;
-  margin: 1.5rem 0 0.75rem 0;
-}
-
-/* Paragraphs */
 .markdown-content :deep(p) {
-  margin: 1rem 0;
-  color: rgba(255, 255, 255, 0.85);
+  margin: 0.625rem 0;
 }
 
-/* Lists */
 .markdown-content :deep(ul),
 .markdown-content :deep(ol) {
-  margin: 1rem 0;
-  padding-left: 2rem;
+  margin: 0.75rem 0;
+  padding-left: 1.5rem;
 }
 
 .markdown-content :deep(li) {
-  margin: 0.5rem 0;
-  color: rgba(255, 255, 255, 0.85);
+  margin: 0.25rem 0;
 }
 
-.markdown-content :deep(li::marker) {
-  color: #ff6b00;
-}
-
-/* Links */
 .markdown-content :deep(a) {
-  color: #ff6b00;
+  color: var(--primary);
   text-decoration: none;
   border-bottom: 1px solid transparent;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 .markdown-content :deep(a:hover) {
-  color: #ff8533;
-  border-bottom-color: #ff8533;
+  border-bottom-color: var(--primary);
 }
 
-/* Inline Code */
 .markdown-content :deep(code) {
-  background: rgba(255, 107, 0, 0.1);
-  border: 1px solid rgba(255, 107, 0, 0.3);
-  padding: 0.2em 0.4em;
+  background: var(--bg-input);
+  border: 1px solid var(--border-color);
+  padding: 0.15em 0.35em;
   border-radius: 4px;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 0.9em;
-  color: #ffa366;
+  font-size: 0.85em;
+  color: var(--primary);
 }
 
-/* Code Blocks */
 .markdown-content :deep(pre) {
-  background: #0d0d0d;
-  border: 1px solid rgba(255, 107, 0, 0.2);
+  background: #1e1e2e;
+  border: 1px solid var(--border-color);
   border-radius: 8px;
-  padding: 1.5rem;
-  margin: 1.5rem 0;
+  padding: 1rem;
+  margin: 1rem 0;
   overflow-x: auto;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
 }
 
 .markdown-content :deep(pre code) {
@@ -352,105 +424,73 @@ onMounted(() => {
   border: none;
   padding: 0;
   color: #e2e8f0;
-  font-size: 0.875rem;
-  line-height: 1.6;
+  font-size: 0.85rem;
+  line-height: 1.5;
 }
 
-/* Blockquotes */
 .markdown-content :deep(blockquote) {
-  margin: 1.5rem 0;
-  padding: 1rem 1.5rem;
-  background: rgba(255, 107, 0, 0.05);
-  border-left: 4px solid #ff6b00;
-  border-radius: 4px;
+  margin: 1rem 0;
+  padding: 0.75rem 1rem;
+  background: var(--bg-input);
+  border-left: 3px solid var(--primary);
 }
 
 .markdown-content :deep(blockquote p) {
-  margin: 0.5rem 0;
-  color: rgba(255, 255, 255, 0.8);
-  font-style: italic;
+  margin: 0;
 }
 
-/* Tables */
 .markdown-content :deep(table) {
   width: 100%;
   border-collapse: collapse;
-  margin: 1.5rem 0;
-  background: rgba(20, 20, 20, 0.5);
-  border-radius: 8px;
-  overflow: hidden;
+  margin: 1rem 0;
+  font-size: 0.9rem;
 }
 
 .markdown-content :deep(th) {
-  background: rgba(255, 107, 0, 0.2);
-  color: #ff6b00;
-  font-weight: 600;
-  padding: 0.75rem 1rem;
+  background: var(--bg-input);
+  padding: 0.625rem;
   text-align: left;
-  border-bottom: 2px solid rgba(255, 107, 0, 0.3);
+  font-weight: 600;
+  border-bottom: 2px solid var(--border-color);
 }
 
 .markdown-content :deep(td) {
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.85);
+  padding: 0.625rem;
+  border-bottom: 1px solid var(--border-color);
 }
 
-.markdown-content :deep(tr:hover) {
-  background: rgba(255, 107, 0, 0.05);
-}
-
-/* Horizontal Rule */
-.markdown-content :deep(hr) {
-  border: none;
-  border-top: 2px solid rgba(255, 107, 0, 0.2);
-  margin: 2rem 0;
-}
-
-/* Strong/Bold */
 .markdown-content :deep(strong) {
-  color: #fff;
+  color: var(--text-primary);
   font-weight: 600;
 }
 
-/* Emphasis/Italic */
 .markdown-content :deep(em) {
-  color: #ffa366;
-  font-style: italic;
+  color: var(--text-secondary);
 }
 
-/* Images */
-.markdown-content :deep(img) {
-  max-width: 100%;
-  height: auto;
-  border-radius: 8px;
-  margin: 1.5rem 0;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
-}
-
-/* Scrollbar Styling */
+/* Scrollbar */
 .doc-sidebar::-webkit-scrollbar,
 .doc-content::-webkit-scrollbar {
-  width: 8px;
+  width: 6px;
 }
 
 .doc-sidebar::-webkit-scrollbar-track,
 .doc-content::-webkit-scrollbar-track {
-  background: rgba(255, 255, 255, 0.05);
+  background: transparent;
 }
 
 .doc-sidebar::-webkit-scrollbar-thumb,
 .doc-content::-webkit-scrollbar-thumb {
-  background: rgba(255, 107, 0, 0.5);
-  border-radius: 4px;
+  background: var(--border-color);
+  border-radius: 3px;
 }
 
 .doc-sidebar::-webkit-scrollbar-thumb:hover,
 .doc-content::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 107, 0, 0.7);
+  background: var(--primary);
 }
 
-/* Responsive Design */
+/* Responsive */
 @media (max-width: 1024px) {
   .doc-container {
     flex-direction: column;
@@ -458,55 +498,30 @@ onMounted(() => {
 
   .doc-sidebar {
     width: 100%;
-    height: auto;
     position: relative;
     top: 0;
-    border-right: none;
-    border-bottom: 1px solid rgba(255, 107, 0, 0.2);
   }
 
   .doc-content {
-    padding: 2rem 1.5rem;
-    max-height: none;
-  }
-
-  .markdown-content :deep(h1) {
-    font-size: 1.875rem;
-  }
-
-  .markdown-content :deep(h2) {
-    font-size: 1.5rem;
-  }
-
-  .markdown-content :deep(pre) {
-    padding: 1rem;
+    padding: 1.5rem 1.5rem;
   }
 }
 
 @media (max-width: 640px) {
-  .doc-content {
-    padding: 1.5rem 1rem;
+  .doc-hero {
+    padding: 1.5rem 0 1rem;
   }
 
-  .doc-header h1 {
-    font-size: 2rem;
-  }
-
-  .markdown-content :deep(h1) {
+  .page-title {
     font-size: 1.5rem;
   }
 
-  .markdown-content :deep(h2) {
+  .doc-header h1 {
     font-size: 1.25rem;
   }
 
-  .markdown-content :deep(h3) {
-    font-size: 1.125rem;
-  }
-
-  .markdown-content :deep(pre) {
-    padding: 0.75rem;
-    font-size: 0.8rem;
+  .doc-content {
+    padding: 1rem 1rem;
   }
 }
 </style>

@@ -11,6 +11,19 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* Theme Colors */
+  --primary: #ff6b00;
+  --primary-light: #ff8c00;
+  --primary-dark: #e55a00;
+  --bg-dark: #0a0a0a;
+  --bg-card: rgba(10, 10, 10, 0.6);
+  --bg-input: rgba(255, 255, 255, 0.08);
+  --border-color: rgba(255, 107, 0, 0.2);
+  --border-color-light: rgba(255, 107, 0, 0.1);
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --text-muted: rgba(255, 255, 255, 0.5);
 }
 
 * {
@@ -685,11 +698,9 @@ a:hover {
 }
 
 .api-detail-page .container {
-  padding-top: 40px;
-  padding-left: 40px;
-  padding-right: 40px;
-  max-width: 1800px;
+  max-width: 1200px;
   margin: 0 auto;
+  padding: 0;
 }
 
 .api-detail-content {
@@ -721,15 +732,15 @@ a:hover {
 /* Two Column Grid Layout */
 .detail-grid {
   display: grid;
-  grid-template-columns: 420px 1fr;
-  gap: 40px;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 1.5rem;
   align-items: start;
 }
 
 .left-column {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 1rem;
   position: sticky;
   top: 100px;
   max-height: calc(100vh - 120px);
@@ -759,7 +770,7 @@ a:hover {
 .right-column {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 1rem;
   min-width: 0; /* Allow content to shrink */
 }
 
@@ -767,20 +778,20 @@ a:hover {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 107, 0, 0.3);
   border-radius: 16px;
-  padding: 30px;
+  padding: 1.25rem;
 }
 
 .endpoint-section {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 107, 0, 0.3);
   border-radius: 16px;
-  padding: 24px;
+  padding: 1.25rem;
 }
 
 .endpoint-section h3 {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 0.75rem;
   color: #ff6b00;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -788,12 +799,12 @@ a:hover {
 
 .endpoint-box {
   display: flex;
-  gap: 12px;
+  gap: 0.75rem;
   align-items: center;
   background: rgba(0, 0, 0, 0.5);
   border: 2px solid rgba(255, 107, 0, 0.3);
   border-radius: 12px;
-  padding: 16px;
+  padding: 0.75rem;
 }
 
 .endpoint-content {
@@ -820,19 +831,19 @@ a:hover {
 
 .endpoint-content code {
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 13px;
+  font-size: 0.8rem;
   color: #ff8c00;
   white-space: nowrap;
 }
 
 .btn-copy {
   flex-shrink: 0;
-  padding: 8px 16px;
+  padding: 0.5rem 0.75rem;
   background: linear-gradient(135deg, #ff6b00 0%, #ff8c00 100%);
   border: none;
   border-radius: 8px;
   color: white;
-  font-size: 14px;
+  font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
@@ -932,25 +943,25 @@ a:hover {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 107, 0, 0.3);
   border-radius: 16px;
-  padding: 24px;
+  padding: 1.25rem;
 }
 
 .payment-details h3 {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 0.75rem;
   color: #ff6b00;
 }
 
 .payment-info {
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 0.5rem;
 }
 
 .payment-info p {
   color: rgba(255, 255, 255, 0.8);
-  font-size: 14px;
+  font-size: 0.9rem;
   line-height: 1.5;
   margin: 0;
 }
@@ -962,14 +973,14 @@ a:hover {
 
 .price-highlight {
   color: #ff6b00 !important;
-  font-size: 18px;
+  font-size: 1rem;
 }
 
 .payment-info .payment-note {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
+  font-size: 0.8rem;
   font-style: italic;
-  margin-top: 6px;
+  margin-top: 0.4rem;
 }
 
 /* Tags Section in Left Column */
@@ -977,13 +988,13 @@ a:hover {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 107, 0, 0.3);
   border-radius: 16px;
-  padding: 24px;
+  padding: 1.25rem;
 }
 
 .tags-section h3 {
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 0.75rem;
   color: #ff6b00;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -994,165 +1005,48 @@ a:hover {
   background: rgba(0, 0, 0, 0.4);
   border: 1px solid rgba(255, 107, 0, 0.3);
   border-radius: 16px;
-  padding: 40px;
+  padding: 1.25rem;
   overflow: hidden;
 }
 
 .documentation-section h2,
 .usage-section h2 {
-  font-size: 28px;
+  font-size: 1.3rem;
   font-weight: 800;
-  margin-bottom: 24px;
+  margin-bottom: 1rem;
   color: #ff6b00;
 }
 
 .usage-intro {
   color: rgba(255, 255, 255, 0.7);
-  font-size: 18px;
-  margin-bottom: 40px;
+  font-size: 0.95rem;
+  margin-bottom: 1.5rem;
   line-height: 1.6;
 }
 
-.doc-content {
-  color: rgba(255, 255, 255, 0.9);
-  line-height: 1.8;
-  font-size: 16px;
-  overflow-wrap: break-word;
-  word-wrap: break-word;
-  word-break: break-word;
-  max-width: 100%;
-}
-
-.doc-content :deep(h1) {
-  font-size: 28px;
-  color: #ff6b00;
-  margin: 24px 0 16px;
-  font-weight: 800;
-  border-bottom: 2px solid rgba(255, 107, 0, 0.3);
-  padding-bottom: 8px;
-  word-break: break-word;
-}
-
-.doc-content :deep(h2) {
-  font-size: 22px;
-  color: #ff8c00;
-  margin: 20px 0 12px;
-  font-weight: 700;
-  word-break: break-word;
-}
-
-.doc-content :deep(h3) {
-  font-size: 18px;
-  color: #ff8c00;
-  margin: 16px 0 10px;
-  font-weight: 600;
-  word-break: break-word;
-}
-
-.doc-content :deep(p) {
-  margin: 12px 0;
-  word-break: break-word;
-  overflow-wrap: break-word;
-}
-
-.doc-content :deep(code) {
-  background: rgba(255, 107, 0, 0.1);
-  color: #ff8c00;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 14px;
-  word-break: break-all;
-  overflow-wrap: anywhere;
-}
-
-.doc-content :deep(pre) {
-  background: rgba(0, 0, 0, 0.5);
-  border: 1px solid rgba(255, 107, 0, 0.3);
-  border-radius: 8px;
-  padding: 16px;
-  overflow-x: auto;
-  overflow-y: hidden;
-  margin: 16px 0;
-  max-width: 100%;
-  scrollbar-width: thin;
-  scrollbar-color: rgba(255, 107, 0, 0.5) rgba(0, 0, 0, 0.2);
-}
-
-.doc-content :deep(pre)::-webkit-scrollbar {
-  height: 6px;
-}
-
-.doc-content :deep(pre)::-webkit-scrollbar-track {
-  background: rgba(0, 0, 0, 0.2);
-  border-radius: 3px;
-}
-
-.doc-content :deep(pre)::-webkit-scrollbar-thumb {
-  background: rgba(255, 107, 0, 0.5);
-  border-radius: 3px;
-}
-
-.doc-content :deep(pre code) {
-  background: none;
-  color: rgba(255, 255, 255, 0.9);
-  padding: 0;
-  white-space: pre;
-  word-break: normal;
-}
-
-.doc-content :deep(a) {
-  color: #ff6b00;
-  text-decoration: none;
-  border-bottom: 1px solid rgba(255, 107, 0, 0.3);
-  transition: all 0.3s ease;
-  word-break: break-all;
-  overflow-wrap: break-word;
-}
-
-.doc-content :deep(a:hover) {
-  border-bottom-color: #ff6b00;
-}
-
-.doc-content :deep(strong) {
-  color: #ff8c00;
-  font-weight: 700;
-  word-break: break-word;
-}
-
-.doc-content :deep(em) {
-  color: rgba(255, 255, 255, 0.8);
-  font-style: italic;
-}
-
-.no-docs {
-  text-align: center;
-  padding: 60px 20px;
-  color: rgba(255, 255, 255, 0.5);
-}
 
 .usage-steps {
   display: flex;
   flex-direction: column;
-  gap: 30px;
+  gap: 1rem;
 }
 
 .step {
   display: flex;
-  gap: 24px;
+  gap: 1rem;
   align-items: flex-start;
 }
 
 .step-number {
   flex-shrink: 0;
-  width: 48px;
-  height: 48px;
+  width: 36px;
+  height: 36px;
   background: linear-gradient(135deg, #ff6b00 0%, #ff8c00 100%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 20px;
+  font-size: 0.95rem;
   font-weight: 800;
   color: white;
 }
@@ -1162,16 +1056,17 @@ a:hover {
 }
 
 .step-content h3 {
-  font-size: 20px;
+  font-size: 1rem;
   font-weight: 700;
-  margin-bottom: 12px;
+  margin-bottom: 0.5rem;
   color: rgba(255, 255, 255, 0.9);
 }
 
 .step-content p {
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.6;
-  margin-bottom: 16px;
+  margin-bottom: 0.75rem;
+  font-size: 0.9rem;
 }
 
 .step-content code {
@@ -1180,28 +1075,28 @@ a:hover {
   padding: 2px 6px;
   border-radius: 4px;
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 14px;
+  font-size: 0.8rem;
 }
 
 .step-note {
   color: rgba(255, 255, 255, 0.5);
-  font-size: 14px;
+  font-size: 0.8rem;
   font-style: italic;
-  margin-top: 12px;
+  margin-top: 0.75rem;
 }
 
 .code-tabs {
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  margin: 16px 0;
+  gap: 0.75rem;
+  margin: 0.75rem 0;
 }
 
 .code-tab h4 {
-  font-size: 14px;
+  font-size: 0.85rem;
   font-weight: 600;
   color: #ff6b00;
-  margin-bottom: 8px;
+  margin-bottom: 0.4rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -1209,17 +1104,18 @@ a:hover {
 .env-list {
   list-style: none;
   padding: 0;
-  margin: 16px 0;
+  margin: 0.75rem 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 0.5rem;
 }
 
 .env-list li {
   color: rgba(255, 255, 255, 0.7);
   line-height: 1.6;
-  padding-left: 20px;
+  padding-left: 1.25rem;
   position: relative;
+  font-size: 0.9rem;
 }
 
 .env-list li::before {
@@ -1228,7 +1124,7 @@ a:hover {
   left: 0;
   color: #ff6b00;
   font-weight: bold;
-  font-size: 20px;
+  font-size: 1rem;
 }
 
 .env-list strong {
@@ -1239,36 +1135,37 @@ a:hover {
 .success-note {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 0.75rem;
   background: rgba(0, 255, 127, 0.1);
   border: 1px solid rgba(0, 255, 127, 0.3);
   border-radius: 8px;
-  padding: 16px 20px;
-  margin-top: 20px;
+  padding: 1rem;
+  margin-top: 1rem;
   color: rgba(0, 255, 127, 0.9);
   font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .success-icon {
-  font-size: 24px;
+  font-size: 1.25rem;
   color: #00ff7f;
 }
 
 .payment-note {
   color: rgba(255, 255, 255, 0.6);
-  font-size: 14px;
+  font-size: 0.8rem;
   font-style: italic;
-  margin-top: 8px;
+  margin-top: 0.4rem;
 }
 
 .code-example {
   background: rgba(0, 0, 0, 0.5);
   border: 1px solid rgba(255, 107, 0, 0.3);
   border-radius: 8px;
-  padding: 20px;
+  padding: 0.75rem;
   overflow-x: auto;
   overflow-y: hidden;
-  margin-top: 16px;
+  margin-top: 0.75rem;
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 107, 0, 0.5) rgba(0, 0, 0, 0.2);
 }
@@ -1293,7 +1190,7 @@ a:hover {
 
 .code-example code {
   font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
-  font-size: 14px;
+  font-size: 0.8rem;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.9);
   white-space: pre;
@@ -1303,38 +1200,39 @@ a:hover {
 .tag-list {
   display: flex;
   flex-wrap: wrap;
-  gap: 12px;
+  gap: 0.75rem;
 }
 
 .tag {
-  padding: 8px 16px;
+  padding: 0.4rem 0.8rem;
   background: rgba(255, 107, 0, 0.2);
   border: 1px solid rgba(255, 107, 0, 0.4);
   border-radius: 24px;
-  font-size: 14px;
+  font-size: 0.8rem;
   font-weight: 600;
   color: #ff6b00;
 }
 
 .error-state {
   text-align: center;
-  padding: 100px 20px;
+  padding: 5rem 1.25rem;
 }
 
 .error-icon {
-  font-size: 80px;
-  margin-bottom: 20px;
+  font-size: 3.5rem;
+  margin-bottom: 1rem;
   opacity: 0.5;
 }
 
 .error-state h2 {
-  font-size: 28px;
-  margin-bottom: 12px;
+  font-size: 1.5rem;
+  margin-bottom: 0.75rem;
 }
 
 .error-state p {
   color: rgba(255, 255, 255, 0.5);
-  margin-bottom: 30px;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
 }
 
 /* Responsive */
@@ -3070,7 +2968,7 @@ input:checked + .slider:before {
 .container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 40px 24px 80px;
+  padding: 40px 24px 0px;
 }
 
 /* Header Section */
