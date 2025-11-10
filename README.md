@@ -41,6 +41,8 @@ Developers create amazing APIs but struggle to monetize them effectively. Tradit
 - **Custom Headers**: Pass authentication tokens securely to upstream APIs
 - **Request/Response Forwarding**: Complete transparency with full header & body support
 - **Error Handling**: Comprehensive error codes and detailed logging
+- **Rate Limiting**: Built-in DDoS protection and usage throttling
+- **Automatic Routing**: Dynamic request proxying based on API configuration
 
 ### 📊 Beautiful Dashboard
 - **Real-time Stats**: Track requests, revenue, and API performance
@@ -204,14 +206,85 @@ curl https://p402.workers.dev/api/{API_ID}/weather/current \
 
 ---
 
-## 📈 Roadmap
+## �️ Core Utilities
 
+P402 includes a comprehensive set of utility modules for API management, authentication, and payments:
+
+### **Auth Service** (`auth-service.ts`)
+- Solana wallet message signing verification
+- Nonce generation and management
+- JWT session creation and validation
+- Automatic session expiry handling
+- Multi-chain signature support
+
+### **API Registry** (`api-registry.ts`)
+- Dynamic API registration and management
+- Custom header storage and encryption
+- API activation/deactivation controls
+- Metadata and documentation management
+- Tag-based API categorization
+- Verification status tracking
+
+### **Payment Middleware** (`payment-middleware.ts`)
+- HTTP 402 payment requirement enforcement
+- Dynamic price calculation per API
+- Payment token validation
+- Network-specific payment routing
+- Automatic error response generation
+- Request/response transformation
+
+### **Database Layer**
+- SQLite-based persistence via Cloudflare D1
+- Schema migrations for reliable updates
+- Query optimization for high-throughput
+- Transaction support for payment processing
+
+### **Frontend Services** (`frontend/src/services/`)
+- API integration client
+- Wallet connection management
+- Payment token handling
+- Real-time data synchronization
+
+---
+
+## �📈 Roadmap
+
+### Phase 1: Foundation ✅ **Current**
+- [x] HTTP 402 implementation
+- [x] Solana wallet authentication
+- [x] Basic API registration
+- [x] Custom headers support
+- [x] Dashboard UI
+- [x] Payment token system
+- [x] Cloudflare Workers deployment
+
+### Phase 2: Enhancement 🚀 **Q1 2026**
 - [ ] WebSocket support for streaming APIs
-- [ ] Advanced analytics & insights
+- [ ] Advanced rate limiting (per-user, per-IP)
+- [ ] API usage analytics dashboard
+- [ ] Webhook notifications
 - [ ] Multi-signature wallet support
+
+### Phase 3: Scaling 📈 **Q2 2026**
+- [ ] Ethereum & EVM-compatible chains
+- [ ] Base Sepolia network expansion
 - [ ] Fiat payment gateway integration
-- [ ] Rate limiting per-API
-- [ ] API marketplace
+- [ ] Advanced API marketplace features
+- [ ] Team/organization management
+
+### Phase 4: Ecosystem 🌐 **Q3 2026**
+- [ ] GraphQL API support
+- [ ] API versioning system
+- [ ] Third-party integrations (Stripe, PayPal)
+- [ ] Custom branding for API providers
+- [ ] Mobile app for payment management
+
+### Phase 5: Enterprise 💼 **Q4 2026**
+- [ ] SSO/SAML authentication
+- [ ] Advanced audit logging
+- [ ] SLA monitoring and alerts
+- [ ] Dedicated support tiers
+- [ ] Private deployment options
 
 ---
 
