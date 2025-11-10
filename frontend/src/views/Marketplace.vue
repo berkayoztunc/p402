@@ -218,7 +218,7 @@ const searchQuery = ref('');
 const selectedNetwork = ref('all');
 const showVerifiedOnly = ref(true); // Default olarak verified olanları göster
 
-const networks = ['solana', 'ethereum', 'polygon', 'base', 'arbitrum'];
+const networks = ['solana', 'solana-devnet'];
 
 const filteredApis = computed(() => {
   // Ensure apis.value is an array

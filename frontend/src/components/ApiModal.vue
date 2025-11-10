@@ -84,11 +84,7 @@
             <label>Network *</label>
             <select v-model="formData.network" required>
               <option value="solana">Solana</option>
-              <option value="solana-devnet">solana-devnet</option>
-              <option value="ethereum">Ethereum</option>
-              <option value="polygon">Polygon</option>
-              <option value="base">Base</option>
-              <option value="arbitrum">Arbitrum</option>
+              <option value="solana-devnet">Solana-devnet</option>
             </select>
           </div>
         </div>
